@@ -13,22 +13,25 @@ const chats = (props) => {
                 showsVerticalScrollIndicator={false}
                 data={dummyChat}
                 renderItem={({ item, index }) => (
-                    <View style={styles.singleChatContainer}>
-                        <View style={{ borderRadius: 20 }}>
-                            <Image
-                                style={styles.profileImage}
-                                source={item.profilePic}
-                            />
+                    <TouchableOpacity onPress={()=>props.navigation.navigate('SingleChat')}>
+                        <View style={styles.singleChatContainer}>
+                            <View style={{ borderRadius: 20 }}>
+                                <Image
+                                    style={styles.profileImage}
+                                    source={item.profilePic}
+                                />
+                            </View>
+                            <View style={styles.chatTextContainer}>
+                                <Text style={{ marginVertical: 5, fontWeight: 'bold', letterSpacing: 0.8 }}>{item.name}</Text>
+                                <Text numberOfLines={1} style={{ width: '80%', letterSpacing: 0.8 }}>{item.message}</Text>
+                            </View>
+                            <View style={{ alignItems: 'flex-end', }}>
+                                <Text>{item.timeStamp}</Text>
+                                {!item.read ? <View style={styles.newMessageIcon} /> : null}
+                            </View>
                         </View>
-                        <View style={styles.chatTextContainer}>
-                            <Text style={{ marginVertical: 5, fontWeight: 'bold', letterSpacing: 0.8 }}>{item.name}</Text>
-                            <Text numberOfLines={1} style={{ width: '80%', letterSpacing: 0.8 }}>{item.message}</Text>
-                        </View>
-                        <View style={{ alignItems: 'flex-end', }}>
-                            <Text>{item.timeStamp}</Text>
-                            {!item.read ? <View style={styles.newMessageIcon} />:null}
-                        </View>
-                    </View>
+                    </TouchableOpacity>
+
                 )}
             />
 
