@@ -7,11 +7,10 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 const Tab = createMaterialTopTabNavigator();
 
 const Home = (props) => {
-    const [activeTab, setTab] = useState('Chats');
     return (
-        <View>
-            <View style={{ backgroundColor: '#005082', height: 119, paddingTop: Platform.OS === 'ios' ? 40 : 10, }}>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
+        <View style={{flex:1}}>
+            <View style={{flex:1,backgroundColor: '#005082',  paddingTop: Platform.OS === 'ios' ? 40 : 10, }}>
+                <View style={{ paddingTop:20,paddingBottom:30,justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image
                             style={{ height: 15, width: 15 }}
@@ -30,11 +29,16 @@ const Home = (props) => {
                         />
                     </View>
                 </View>
-                <View>
+                <View style={{flex:1,}}>
                     <Tab.Navigator
                         tabBarOptions={{
-                            activeTintColor: theme.mode === 'dark' ? darkMode.theme.highlightedFont : lightMode.theme.highlightedFont,
-                            inactiveTintColor: theme.mode === 'dark' ? darkMode.theme.tabBarIconInactive : lightMode.theme.tabBarIconInactive,
+                            tabStyle:{
+                                backgroundColor:'#005082',
+                                borderBottomWidth:3,
+                                borderBottomColor:'#fff',
+                            },
+                             activeTintColor: '#F8F8F8',
+                            inactiveTintColor: 'grey',
                             labelStyle: { fontSize: 15, fontWeight: '500' }
                         }}>
                         <Tab.Screen name="Chats">{() => <Chats  navigation={props.navigation} />}</Tab.Screen>
@@ -43,46 +47,6 @@ const Home = (props) => {
 
                     </Tab.Navigator>
                 </View>
-                {/* <View style={{marginTop:Platform.OS==='ios'? 28:55,flexDirection:'row',justifyContent:'space-between'}}>
-                    <TouchableOpacity
-                    onPress={()=>setTab('Chats')}
-                    style={styles.buttonStyle}
-                    >
-                        <View style={[styles.buttonViewStyle,{borderBottomColor:activeTab==='Chats' ? '#f8f8f8':'#005082'}]}>
-                            <Text
-                            style={[styles.buttonText,{color:activeTab==='Chats' ? '#f8f8f8':'grey',}]}
-                            >Chats</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    onPress={()=>setTab('Calls')}
-                    style={styles.buttonStyle}>
-                        <View style={[styles.buttonViewStyle,{borderBottomColor:activeTab==='Calls' ? '#f8f8f8':'#005082'}]}>
-                            <Text
-                            style={[styles.buttonText,{color:activeTab==='Calls' ? '#f8f8f8':'grey',}]}
-                            >Calls</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    onPress={()=>setTab('BillPay')}
-                    style={styles.buttonStyle}>
-                        <View style={[styles.buttonViewStyle,{borderBottomColor:activeTab==='BillPay' ? '#f8f8f8':'#005082'}]}>
-                            <Text
-                            style={[styles.buttonText,{color:activeTab==='BillPay' ? '#f8f8f8':'grey',}]}
-                            >Bill Pay</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View> */}
-            </View>
-            <View style={{ paddingTop: 100 }}>
-                {
-                    activeTab === 'Chats' ?
-                        <Chats />
-                        :
-                        activeTab === 'Calls' ?
-                            <Calls /> :
-                            <BillPay />
-                }
             </View>
         </View>
 

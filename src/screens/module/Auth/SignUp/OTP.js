@@ -96,7 +96,7 @@ const OTP = (props) => {
                                 // value={mobile}
                                 // onChangeText={(text) => setMobile(text)}
                                 onFocus={() => setSpace(true)}
-                                onEndEditing={() => setSpace(false)}
+                                // onEndEditing={() => setSpace(false)}
                             />
 
                         </View>
@@ -126,7 +126,7 @@ const OTP = (props) => {
                                 // value={mobile}
                                 // onChangeText={(text) => setMobile(text)}
                                 onFocus={() => setSpace(true)}
-                                onEndEditing={() => setSpace(false)}
+                                // onEndEditing={() => setSpace(false)}
                             />
 
                         </View>
@@ -155,7 +155,7 @@ const OTP = (props) => {
                                 // value={mobile}
                                 // onChangeText={(text) => setMobile(text)}
                                 onFocus={() => setSpace(true)}
-                                onEndEditing={() => setSpace(false)}
+                                // onEndEditing={() => setSpace(false)}
                             />
 
                         </View>
@@ -188,7 +188,7 @@ const OTP = (props) => {
                                     // value={mobile}
                                     // onChangeText={(text) => setMobile(text)}
                                     onFocus={() => setSpace(true)}
-                                    onEndEditing={() => setSpace(false)}
+                                    // onEndEditing={() => setSpace(false)}
                                 />
                             </View>
 

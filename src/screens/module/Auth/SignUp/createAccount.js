@@ -12,7 +12,7 @@ const createAccount = (props) => {
 
     const onClickRegister = () => {
         if (firstName && lastName && gender) {
-            props.navigation.navigate('HomeStack');
+            props.navigation.navigate('RegisterSuccess');
 
         }
     }

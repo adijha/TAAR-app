@@ -6,6 +6,8 @@ import MobileScreen from '../../../screens/module/Auth/SignUp/Mobile';
 import OTP from '../../../screens/module/Auth/SignUp/OTP';
 import VerifiedOTP from '../../../screens/module/Auth/SignUp/verifiedOTP';
 import CreateAccount from '../../../screens/module/Auth/SignUp/createAccount';
+import RegisterSuccess from '../../../screens/module/Auth/SignUp/registrationSuccessful';
+
 
 const Stack = createStackNavigator();
 const AuthStack = (props) => {
@@ -25,7 +27,7 @@ const AuthStack = (props) => {
         <Stack.Screen name='OTP' component={OTP} initialParams={props} options={{ headerShown: false }} />
         <Stack.Screen name='VerifiedOTP' component={VerifiedOTP} initialParams={props} options={{ headerShown: false }} />
         <Stack.Screen name='CreateAccount' component={CreateAccount} initialParams={props} options={{ headerShown: false }} />
-        {/* <Stack.Screen name='SignUp' component={SignUp} initialParams={props} options={{ headerShown: false }} /> */}
+        <Stack.Screen name='RegisterSuccess' component={RegisterSuccess} initialParams={props} options={{ headerShown: false }} />
       </Stack.Navigator>
     )
   }
