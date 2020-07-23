@@ -31,6 +31,7 @@ const chats = (props) => {
                     </View>
                 )}
             />
+
             <View style={{ marginLeft: '80%', position: 'absolute', marginTop: deviceHeight * (Platform.OS === 'ios' ? showAddButton ? 0.45 : 0.20 : 0.50) }}>
                 <View style={[styles.addButton, { borderRadius: 35, marginTop: !showAddButton ? (deviceHeight * (Platform.OS === 'ios' ? 0.46 : 0.19)) : (deviceHeight * (Platform.OS === 'ios' ? 0.0 : -0.06)) }]}>
                     {
@@ -55,6 +56,7 @@ const chats = (props) => {
                                         </ImageBackground>
                                     </View>
                                 </TouchableOpacity>
+
                             </View> : null
                     }
                     <TouchableOpacity onPress={() => setShowAddButton(!showAddButton)}>
@@ -67,7 +69,10 @@ const chats = (props) => {
                         </View>
                     </TouchableOpacity>
                 </View>
+
+
             </View>
+
         </View>
     )
 }
