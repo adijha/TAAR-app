@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../../../screens/module/Auth/Login';
-import SignUp from '../../../screens/module/Auth/SignUp';
+// import Login from '../../../screens/module/Auth/Login';
+// import SignUp from '../../../screens/module/Auth/SignUp';
 import MobileScreen from '../../../screens/module/Auth/SignUp/Mobile';
 import OTP from '../../../screens/module/Auth/SignUp/OTP';
 import VerifiedOTP from '../../../screens/module/Auth/SignUp/verifiedOTP';

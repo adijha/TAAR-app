@@ -3,12 +3,15 @@ import { View, Text, Image, Platform, TouchableOpacity, StyleSheet } from 'react
 import Chats from './Components/chats';
 import Calls from './Components/calls';
 import BillPay from './Components/billPay';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+const Tab = createMaterialTopTabNavigator();
+
 const Home = (props) => {
-    const [activeTab,setTab] = useState('Chats');
+    const [activeTab, setTab] = useState('Chats');
     return (
         <View>
-            <View style={{  backgroundColor: '#005082', height: 119, paddingTop: Platform.OS === 'ios' ? 40 : 10,  }}>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row',paddingHorizontal: 20 }}>
+            <View style={{ backgroundColor: '#005082', height: 119, paddingTop: Platform.OS === 'ios' ? 40 : 10, }}>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image
                             style={{ height: 15, width: 15 }}
@@ -27,8 +30,20 @@ const Home = (props) => {
                         />
                     </View>
                 </View>
+                <View>
+                    <Tab.Navigator
+                        tabBarOptions={{
+                            activeTintColor: theme.mode === 'dark' ? darkMode.theme.highlightedFont : lightMode.theme.highlightedFont,
+                            inactiveTintColor: theme.mode === 'dark' ? darkMode.theme.tabBarIconInactive : lightMode.theme.tabBarIconInactive,
+                            labelStyle: { fontSize: 15, fontWeight: '500' }
+                        }}>
+                        <Tab.Screen name="Chats">{() => <Chats  navigation={props.navigation} />}</Tab.Screen>
+                        <Tab.Screen name="Calls">{() => <Calls   navigation={props.navigation} />}</Tab.Screen>
+                        <Tab.Screen name="Bil Pays">{() => <BillPay  navigation={props.navigation} />}</Tab.Screen>
 
-                <View style={{marginTop:Platform.OS==='ios'? 28:55,flexDirection:'row',justifyContent:'space-between'}}>
+                    </Tab.Navigator>
+                </View>
+                {/* <View style={{marginTop:Platform.OS==='ios'? 28:55,flexDirection:'row',justifyContent:'space-between'}}>
                     <TouchableOpacity
                     onPress={()=>setTab('Chats')}
                     style={styles.buttonStyle}
@@ -57,20 +72,20 @@ const Home = (props) => {
                             >Bill Pay</Text>
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </View>
-            <View style={{paddingTop:100}}>
-            {
-                activeTab ==='Chats'?
-                <Chats/>
-                :
-                activeTab ==='Calls'?
-                <Calls/>:
-                <BillPay/>
-            }
+            <View style={{ paddingTop: 100 }}>
+                {
+                    activeTab === 'Chats' ?
+                        <Chats />
+                        :
+                        activeTab === 'Calls' ?
+                            <Calls /> :
+                            <BillPay />
+                }
+            </View>
         </View>
-        </View>
-        
+
     )
 }
 export default Home;
@@ -78,16 +93,16 @@ export default Home;
 const styles = StyleSheet.create({
     buttonViewStyle: {
         borderBottomWidth: 2,
-        alignItems:'center'
+        alignItems: 'center'
     },
-    buttonStyle:{
-        width:'33%',
+    buttonStyle: {
+        width: '33%',
     },
-    buttonText:{
-       fontSize:16,
-       fontWeight:'500',
-       letterSpacing:0.91,
-       
+    buttonText: {
+        fontSize: 16,
+        fontWeight: '500',
+        letterSpacing: 0.91,
+
     }
 
 })

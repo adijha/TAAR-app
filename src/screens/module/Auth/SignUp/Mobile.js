@@ -9,7 +9,7 @@ import {
   Keyboard,
   TouchableOpacity,
 } from 'react-native';
-import Paper from '../../../../components/common/Paper';
+import Card from '../../../../components/common/Card';
 const MobileScreen = (props) => {
   const [mobile, setMobile] = useState('');
   const [space, setSpace] = useState(false);
@@ -41,23 +41,8 @@ const MobileScreen = (props) => {
             }}
           />
         )}
-      <View
-        style={{
-          padding: 15,
-          borderRadius: 2,
-          elevation:3,
-          backgroundColor: '#fff',
-          marginTop: 25,
-          width: '92%',
-          shadowColor: '#000',
-          shadowOpacity: 0.2,
-          shadowRadius: 4,
-          shadowOffset: {
-            // width: 5,
-            height: 5,
-          },
-          alignSelf: 'center',
-        }}>
+      <Card
+        >
         <Text style={{ color: '#2A2A2A', fontWeight: 'bold', fontSize: 20 }}>
           Your Phone!
         </Text>
@@ -99,7 +84,7 @@ const MobileScreen = (props) => {
           <Text style={{ fontWeight: 'bold', fontSize: 12 }}>one time password</Text>
           {'\non this mobile number'}
         </Text>
-      </View>
+      </Card>
       <View style={{alignItems:'center'}}>
         <TouchableOpacity
         onPress={getOtp}
