@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         borderWidth: 1,
-        borderColor: '#707070',
+        borderColor: '#E5E5E5',
         borderBottomWidth: Platform.OS === 'ios' ? 0 : 1,
         // marginBottom: Platform.OS === 'ios' ? '5%' : 0,
         paddingHorizontal: 12

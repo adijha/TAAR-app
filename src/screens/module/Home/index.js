@@ -4,13 +4,17 @@ import Chats from './Components/chats';
 import Calls from './Components/calls';
 import BillPay from './Components/billPay';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import HomeHeader from './Components/homeHeader';
+
 const Tab = createMaterialTopTabNavigator();
 
 const Home = (props) => {
     return (
         <View style={{flex:1}}>
             <View style={{flex:1,backgroundColor: '#005082',  paddingTop: Platform.OS === 'ios' ? 40 : 10, }}>
-                <View style={{ paddingTop:20,paddingBottom:30,justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
+            <HomeHeader/>
+                
+                {/* <View style={{ paddingTop:20,paddingBottom:30,justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image
                             style={{ height: 15, width: 15 }}
@@ -28,7 +32,7 @@ const Home = (props) => {
                             source={dummyPic}
                         />
                     </View>
-                </View>
+                </View> */}
                 <View style={{flex:1,}}>
                     <Tab.Navigator
                         tabBarOptions={{
@@ -41,9 +45,9 @@ const Home = (props) => {
                             inactiveTintColor: 'grey',
                             labelStyle: { fontSize: 15, fontWeight: '500' }
                         }}>
-                        <Tab.Screen name="Chats">{() => <Chats  navigation={props.navigation} />}</Tab.Screen>
-                        <Tab.Screen name="Calls">{() => <Calls   navigation={props.navigation} />}</Tab.Screen>
-                        <Tab.Screen name="Bil Pays">{() => <BillPay  navigation={props.navigation} />}</Tab.Screen>
+                        <Tab.Screen name="Chats">{() => <Chats navigation={props.navigation} />}</Tab.Screen>
+                        <Tab.Screen name="Calls">{() => <Calls navigation={props.navigation} />}</Tab.Screen>
+                        <Tab.Screen name="Bil Pays">{() => <BillPay navigation={props.navigation} />}</Tab.Screen>
 
                     </Tab.Navigator>
                 </View>
