@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, FlatList, Platform, TouchableOpacity } f
 import dummyUserList from './dummy-data-userList';
 import Card from '../../../../components/common/Card'
 
-const dummyUserSelectedgroup = [
+export const dummyUserSelectedgroup = [
     {
         profilePic: require('../../../../images/51.png'),
         name: 'Marie Watson',
