@@ -4,7 +4,7 @@ import Header from './components/header';
 import ChatArea from './components/chatArea';
 import Footer from './components/footer';
 
-const singleChat = () => {
+const singleChat = (props) => {
     return (
         <View style={{ flex: 1,}}>
             <StatusBar
@@ -13,7 +13,7 @@ const singleChat = () => {
                 barStyle={'dark-content'
                 }
             />
-            <Header/>
+            <Header navigation={props.navigation}/>
             <ChatArea/>
             <Footer/>
         </View>
