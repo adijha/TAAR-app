@@ -14,7 +14,8 @@ const chats = (props) => {
                 data={dummyChat}
                 renderItem={({ item, index }) => (
                     <TouchableOpacity onPress={()=>props.navigation.navigate('SingleChat')}>
-                        <View style={styles.singleChatContainer}>
+                        <View 
+                        style={styles.singleChatContainer}>
                             <View style={{ borderRadius: 20 }}>
                                 <Image
                                     style={styles.profileImage}

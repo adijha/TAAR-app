@@ -101,7 +101,7 @@ const createAccount = (props) => {
                                     value={firstName}
                                     onChangeText={(text) => setFirstName(text)}
                                     onFocus={() => setSpace(true)}
-                                    onEndEditing={() => setSpace(false)}
+                                    // onEndEditing={() => setSpace(false)}
                                 />
                             </View>
                             <View style={{ marginVertical: 25 }}>
@@ -113,7 +113,7 @@ const createAccount = (props) => {
                                     value={lastName}
                                     onChangeText={(text) => setLastName(text)}
                                     onFocus={() => setSpace(true)}
-                                    onEndEditing={() => setSpace(false)}
+                                    // onEndEditing={() => setSpace(false)}
                                 />
                             </View>
                             <View>

@@ -24,7 +24,6 @@ const OTP = (props) => {
     const pin3ref = useRef(null);
     const pin4ref = useRef(null);
     const [space, setSpace] = useState(false);
-
     const verifyOtp = () => {
         if(pin1 && pin2 && pin3 && pin4){
             console.log(pin1,pin2,pin3,pin4)
