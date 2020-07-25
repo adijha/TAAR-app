@@ -66,7 +66,7 @@ const CreateGroupProfile = (props) => {
                 </View>
                 <View style={{ marginTop: 20 }}>
                     <TouchableOpacity
-                        onPress={()=>props.navigation.navigate('SingleChat')}
+                        onPress={() => props.navigation.navigate('SingleChat')}
                         style={[styles.btn, { borderColor: groupName.length !== 0 ? '#39B54A' : '#000' }]}
                     >
                         <Text style={[styles.btnText, { color: groupName.length !== 0 ? '#39B54A' : '#000' }]}>DONE</Text>
@@ -74,45 +74,50 @@ const CreateGroupProfile = (props) => {
                 </View>
             </View>
             <KeyboardAvoidingView style={{ marginBottom: Platform.OS === 'ios' ? 10 : 0 }} behavior={Platform.OS === 'android' ? 'height' : 'padding'}>
-
                 <View style={styles.footer}>
-                    <FlatList
-                        style={{}}
-                        showsHorizontalScrollIndicator={false}
-                        horizontal={true}
-                        data={dummyUserSelectedgroup}
-                        renderItem={({ item, index }) => (
-                            <View style={{ marginTop: 3 }}>
-                                <View
-                                    style={styles.crossView}
-                                >
-                                    <Image
-                                        style={{ width: 8, height: 8, }}
-                                        source={crossIcon}
-                                    />
-                                </View>
-                                <View style={{ alignItems: 'center', marginLeft: 10, }}>
-                                    <Image
-                                        style={{ width: 30, height: 30, borderRadius: 15 }}
-                                        source={item.profilePic}
-                                    />
-                                    <Text>{item.name.split(" ")[0]}</Text>
-                                </View>
-                            </View>
+                <Text style={styles.footerGroupText}>Group Users {dummyUserSelectedgroup.length}</Text>
 
-                        )}
-                    />
-                    <View style={{ marginTop: 3, alignItems: 'center', }}>
-                        <View style={styles.inviteView}>
-                            <Image
-                                style={{ width: 15, height: 15, borderRadius: 15 }}
-                                source={dummyUser}
-                            />
-                        </View>
-                        <View>
-                            <Text>{'Invite'}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <FlatList
+                            style={{}}
+                            showsHorizontalScrollIndicator={false}
+                            horizontal={true}
+                            data={dummyUserSelectedgroup}
+                            renderItem={({ item, index }) => (
+                                <View style={{ marginTop: 3 }}>
+                                    <View
+                                        style={styles.crossView}
+                                    >
+                                        <Image
+                                            style={{ width: 8, height: 8, }}
+                                            source={crossIcon}
+                                        />
+                                    </View>
+                                    <View style={{ alignItems: 'center', marginLeft: 10, }}>
+                                        <Image
+                                            style={{ width: 30, height: 30, borderRadius: 15 }}
+                                            source={item.profilePic}
+                                        />
+                                        <Text>{item.name.split(" ")[0]}</Text>
+                                    </View>
+                                </View>
+
+                            )}
+                        />
+                        <View style={{ marginTop: 3, alignItems: 'center', }}>
+                            <View style={styles.inviteView}>
+                                <Image
+                                    style={{ width: 15, height: 15, borderRadius: 15 }}
+                                    source={dummyUser}
+                                />
+                            </View>
+                            <View>
+                                <Text>{'Invite'}</Text>
+                            </View>
                         </View>
                     </View>
+
+
                 </View>
             </KeyboardAvoidingView>
         </View>
@@ -218,7 +223,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     footer: {
-        flexDirection: 'row',
         borderTopWidth: 1,
         backgroundColor: '#fff',
         borderTopColor: '#E5E5E5',
@@ -226,6 +230,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         width: '100%',
         marginBottom: Platform.OS === 'ios' ? 10 : 0
+    },
+    footerGroupText:{
+        color:'#212121',
+        marginLeft:12,
+        marginVertical:10,
+        fontWeight:'700',
+        fontSize:14
+
     }
 })
 export default CreateGroupProfile;

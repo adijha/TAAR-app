@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
+
 
 const Header = (props) => {
     const [isGroupChat, setIsGroupChat] = useState(true);
+    const onPressGroupHeader = () =>{
+        isGroupChat ? props.navigation.navigate('ManageGroup'):null;
+    }
+    const onPressBackArrow = () =>{
+        props.navigation.goBack()
+    }
     return (
         <View style={{ backgroundColor: '#005082', paddingTop: '10%', }}>
             <View style={{ paddingTop: 20, paddingBottom: 10, justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity
-                        onPress={() => props.navigation.goBack()}
+                        onPress={onPressBackArrow}
                     >
                         <Image
                             style={{ height: 12, width: 16, }}
@@ -21,22 +27,32 @@ const Header = (props) => {
                         style={{ height: 37, width: 37, marginHorizontal: 12 }}
                         source={dummyPic}
                     />
-                    <View>
-                        <Text style={{ marginLeft: 0, color: '#f8f8f8', fontSize: 16, fontWeight: '600', letterSpacing: 2.5 }}>Marie Watson</Text>
-                        {isGroupChat ?
-                            <View style={{ flexDirection: 'row', marginLeft: 0, }}>
-                                <Text style={[styles.userSelectedText, { fontWeight: 'bold' }]}>3</Text>
-                                <Text style={styles.userSelectedText}> users </Text>
-                            </View> : null
-                        }
-                    </View>
+                    <TouchableOpacity
+                    onPress={onPressGroupHeader}
+                    >
+                        <View>
+                            <Text style={{ marginLeft: 0, color: '#f8f8f8', fontSize: 16, fontWeight: '600', letterSpacing: 2.5 }}>Marie Watson</Text>
+                            {isGroupChat ?
+                                <View style={{ flexDirection: 'row', marginLeft: 0, }}>
+                                    <Text style={[styles.userSelectedText, { fontWeight: 'bold' }]}>3</Text>
+                                    <Text style={styles.userSelectedText}> users </Text>
+                                </View> : null
+                            }
+                        </View>
+                    </TouchableOpacity>
+
+
 
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image
-                        style={{ height: 20, width: 20 }}
-                        source={callIcon}
-                    />
+                    {
+                        !isGroupChat ?
+                            <Image
+                                style={{ height: 20, width: 20 }}
+                                source={callIcon}
+                            /> : null
+                    }
+
                     <View style={{ marginLeft: 20 }}>
                         <View
                             style={{ backgroundColor: '#fff', width: 6, height: 6, borderRadius: 3 }}
