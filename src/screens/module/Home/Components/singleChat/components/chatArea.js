@@ -5,7 +5,7 @@ import dummyGroupSingleChat from '../dummy-data-groupChat';
 import Card from '../../../../../../components/common/Card';
 const ChatArea = () => {
     let myId = 100;
-    const [isGrouChat, setIsGroupChat] = useState(false);
+    const [isGrouChat, setIsGroupChat] = useState(true);
     return (
         <View style={{ flex: 1, }}>
             {
