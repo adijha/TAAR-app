@@ -46,12 +46,13 @@ const ChatArea = () => {
                                                                         <Text style={{ fontSize: 16 }} >{item.message ? item.message : null}</Text>
                                                                     </View>
                                                                 </View>
+                                                                <Text style={[styles.timeStamp,{marginTop:5}]}>{item.timeStamp}</Text>
                                                             </View>
                                                         </View>
                                                     </View>
                                                     :
                                                     <View>
-                                                        <View style={[styles.chatWrapper, { justifyContent: item.uid === myId ? 'flex-start' : 'flex-end', }]}>
+                                                        <View style={ { alignSelf: 'flex-end',justifyContent: item.uid === myId ? 'flex-start' : 'flex-end', }}>
                                                             <View style={{ marginRight: 10 }}>
                                                                 <View style={{ marginTop: 5 }}>
                                                                     {isGrouChat ? <View style={{ alignSelf: item.uid === myId ? 'flex-end' : 'flex-start', }}><Text style={styles.nameText}>{'Me'}</Text></View> : null}
@@ -59,13 +60,16 @@ const ChatArea = () => {
                                                                     <View style={[styles.senderView, { backgroundColor: '#005082', }]}>
                                                                         <Text style={{ fontSize: 16, color: '#fff' }} >{item.message ? item.message : null}</Text>
                                                                     </View>
+                                                                    
                                                                 </View>
                                                             </View>
-                                                            <View style={{ alignSelf: 'flex-end', }}>
+                                                            <View style={{ alignSelf: 'flex-end',marginRight: 10,marginTop:5,flexDirection:'row',alignItems:'center' }}>
                                                                 <Image
-                                                                    source={myProfilePic}
-                                                                    style={{ width: 30, height: 30, borderRadius: 15 }}
+                                                                    source={doubleTick}
+                                                                    style={{ width: 17, height: 9,marginRight:5 }}
                                                                 />
+                                                                <Text style={styles.timeStamp}>{item.timeStamp}</Text>
+
                                                             </View>
                                                         </View>
                                                     </View>
@@ -83,7 +87,7 @@ const ChatArea = () => {
 }
 export default ChatArea;
 const senderProfilePic = require('../../../../../../images/51.png');
-const myProfilePic = require('../../../../../../images/44.png');
+const doubleTick = require('../../../../../../images/64.png');
 
 const styles = StyleSheet.create({
     messageLoadingView: {
@@ -102,6 +106,11 @@ const styles = StyleSheet.create({
             height: 2,
         },
         alignSelf: 'center',
+    },
+    timeStamp:{
+        fontSize:13,
+        color:'#777777',
+        fontWeight:'normal'
     },
     nameText: {
         fontSize: 13,
