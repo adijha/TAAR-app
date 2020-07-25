@@ -1,9 +1,11 @@
-import React from 'react';
-import { View, Text, StyleSheet, ActivityIndicator,Image,FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator, Image, FlatList } from 'react-native';
 import dummySingleChat from '../dummy-data-singleChat';
+import dummyGroupSingleChat from '../dummy-data-groupChat';
 import Card from '../../../../../../components/common/Card';
 const ChatArea = () => {
     let myId = 100;
+    const [isGrouChat, setIsGroupChat] = useState(false);
     return (
         <View style={{ flex: 1, }}>
             {
@@ -16,12 +18,12 @@ const ChatArea = () => {
                             <ActivityIndicator size='large' />
                         </View>
                     </View> :
-                    <View style={{marginHorizontal:12,}}>
+                    <View style={{ marginHorizontal: 12, }}>
                         <FlatList
                             showsVerticalScrollIndicator={false}
                             inverted={true}
                             // initialNumToRender={10}
-                            data={dummySingleChat.reverse()}
+                            data={isGrouChat ? dummyGroupSingleChat.reverse() : dummySingleChat.reverse()}
                             renderItem={({ item, index }) => {
                                 return (
                                     <View style={{}}>
@@ -29,36 +31,45 @@ const ChatArea = () => {
                                             {
                                                 //my id
                                                 item.id !== myId ?
-                                                    <View style={[styles.chatWrapper, { justifyContent: item.id !==myId? 'flex-start' : 'flex-end', }]}>
-                                                        <View style={{ alignSelf: 'flex-end', marginRight: 10 }}>
-                                                            <Image
-                                                            source={senderProfilePic}
-                                                            style={{width:30,height:30,borderRadius:15}}
-                                                            />
-                                                        </View>
-                                                        <View style={{}}>
-                                                            <View style={{ marginTop: 5 }}>
-                                                                <View style={[styles.senderView,{ backgroundColor:'#fff',}]}>
-                                                                    <Text style={{fontSize:16}} >{item.message ? item.message : null}</Text>
+                                                    <View>
+                                                        <View style={[styles.chatWrapper, { justifyContent: item.id !== myId ? 'flex-start' : 'flex-end', }]}>
+                                                            <View style={{ alignSelf: 'flex-end', marginRight: 10 }}>
+                                                                <Image
+                                                                    source={senderProfilePic}
+                                                                    style={{ width: 30, height: 30, borderRadius: 15 }}
+                                                                />
+                                                            </View>
+                                                            <View style={{}}>
+                                                                {isGrouChat ? <View style={{}}><Text style={styles.nameText}>{item.name}</Text></View> : null}
+                                                                <View style={{ marginTop: 5 }}>
+                                                                    <View style={[styles.senderView, { backgroundColor: '#fff', }]}>
+                                                                        <Text style={{ fontSize: 16 }} >{item.message ? item.message : null}</Text>
+                                                                    </View>
                                                                 </View>
                                                             </View>
-                                                        </View>
-                                                    </View> :
-                                                    <View style={[styles.chatWrapper, { justifyContent: item.uid === myId ? 'flex-start' : 'flex-end', }]}>
-                                                        <View style={{ marginRight: 10 }}>
-                                                            <View style={{ marginTop: 5 }}>
-                                                                <View style={[styles.senderView,{ backgroundColor:'#005082',}]}>
-                                                                    <Text style={{fontSize:16,color:'#fff'}} >{item.message ? item.message : null}</Text>
-                                                                </View>
-                                                            </View>
-                                                        </View>
-                                                        <View style={{ alignSelf: 'flex-end', }}>
-                                                        <Image
-                                                            source={myProfilePic}
-                                                            style={{width:30,height:30,borderRadius:15}}
-                                                            />
                                                         </View>
                                                     </View>
+                                                    :
+                                                    <View>
+                                                        <View style={[styles.chatWrapper, { justifyContent: item.uid === myId ? 'flex-start' : 'flex-end', }]}>
+                                                            <View style={{ marginRight: 10 }}>
+                                                                <View style={{ marginTop: 5 }}>
+                                                                    {isGrouChat ? <View style={{ alignSelf: item.uid === myId ? 'flex-end' : 'flex-start', }}><Text style={styles.nameText}>{'Me'}</Text></View> : null}
+
+                                                                    <View style={[styles.senderView, { backgroundColor: '#005082', }]}>
+                                                                        <Text style={{ fontSize: 16, color: '#fff' }} >{item.message ? item.message : null}</Text>
+                                                                    </View>
+                                                                </View>
+                                                            </View>
+                                                            <View style={{ alignSelf: 'flex-end', }}>
+                                                                <Image
+                                                                    source={myProfilePic}
+                                                                    style={{ width: 30, height: 30, borderRadius: 15 }}
+                                                                />
+                                                            </View>
+                                                        </View>
+                                                    </View>
+
                                             }
                                         </View>
                                     </View>
@@ -92,14 +103,20 @@ const styles = StyleSheet.create({
         },
         alignSelf: 'center',
     },
+    nameText: {
+        fontSize: 13,
+        color: '#666666',
+        fontWeight: '700',
+        marginBottom: 5
+    },
     chatWrapper: {
         alignItems: 'center',
         flexDirection: 'row',
     },
-    senderView:{
-        borderRadius:(Platform.OS === 'android') ? 3 : 4,
-        justifyContent:'center',
-        paddingHorizontal:12,
-        paddingVertical:6
+    senderView: {
+        borderRadius: (Platform.OS === 'android') ? 3 : 4,
+        justifyContent: 'center',
+        paddingHorizontal: 12,
+        paddingVertical: 6
     }
 })

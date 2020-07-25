@@ -1,6 +1,13 @@
 const dummyChat = [
     {
         profilePic:require('../../../../images/51.png'),
+        name:'Development Group',
+        message:'+91-982342423 Please call me! ASAP. ASAP.ASAP',
+        timeStamp:'09:12 AM',
+        read:false
+    },
+    {
+        profilePic:require('../../../../images/51.png'),
         name:'Marie Watson',
         message:'Please call me whenver you are...',
         timeStamp:'09:15 AM',

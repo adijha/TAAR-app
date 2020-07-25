@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
 import { dummyUserSelectedgroup } from './startGroup';
-const CreateGroupProfile = () => {
+const CreateGroupProfile = (props) => {
     const [groupName, setGroupName] = useState('');
     return (
         <View style={styles.container}>
@@ -27,12 +27,31 @@ const CreateGroupProfile = () => {
                 </View>
             </View>
             <View style={styles.mainContainer}>
-                <View style={styles.dummyPic}>
-                    <Image
-                        source={cameraIcon}
-                        style={{ width: 19, height: 17 }}
-                    />
-                </View>
+                {
+                    false ?
+                        <View>
+                            <View style={{}}>
+                                <Image
+                                    style={{ borderWidth: 3, borderRadius: 45, width: 71, height: 71, borderColor: 'rgba(0, 0, 0, 0.15)' }}
+                                    source={dummyPic}
+                                />
+                            </View>
+                            <View style={{ position: 'absolute', top: '60%', left: '15%' }}>
+                                <TouchableOpacity>
+                                    <Image
+                                        style={{ borderWidth: 3, borderRadius: 15, width: 30, height: 30, borderColor: '#fff' }}
+                                        source={cameraRealIcon}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View> :
+                        <View style={styles.dummyPic}>
+                            <Image
+                                source={cameraIcon}
+                                style={{ width: 19, height: 17 }}
+                            />
+                        </View>
+                }
                 <Text style={{ marginTop: 10, color: '#212121', fontSize: 14, letterSpacing: 1.4 }}>Group Name</Text>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
@@ -47,6 +66,7 @@ const CreateGroupProfile = () => {
                 </View>
                 <View style={{ marginTop: 20 }}>
                     <TouchableOpacity
+                        onPress={()=>props.navigation.navigate('SingleChat')}
                         style={[styles.btn, { borderColor: groupName.length !== 0 ? '#39B54A' : '#000' }]}
                     >
                         <Text style={[styles.btnText, { color: groupName.length !== 0 ? '#39B54A' : '#000' }]}>DONE</Text>
@@ -101,7 +121,10 @@ const CreateGroupProfile = () => {
 const longBackArrow = require('../../../../images/52.png');
 const cameraIcon = require('../../../../images/63.png');
 const crossIcon = require('../../../../images/62.png');
+const cameraRealIcon = require('../../../../images/43.png');
 const dummyUser = require('../../../../images/53.png');
+const dummyPic = require('../../../../images/44.png');
+
 
 
 const styles = StyleSheet.create({
@@ -163,7 +186,7 @@ const styles = StyleSheet.create({
         marginLeft: 12,
         color: '#f8f8f8',
         fontSize: 16,
-        fontWeight: '600',
+        fontWeight: 'bold',
         letterSpacing: 1.92
     },
     innerContainer: {
