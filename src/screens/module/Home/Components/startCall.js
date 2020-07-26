@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
 import dummyUserList from './dummy-data-userList';
-const startCall = (props) => {
+const startCall = ({navigation}) => {
     const onPressUserCall = (item)=>{
-        props.navigation.navigate('Calling',{user:item});
+        navigation.navigate('Calling',{user:item});
     }
     return (
         <View style={styles.container}>
@@ -11,7 +11,7 @@ const startCall = (props) => {
                 <View style={{ paddingTop: 20, paddingBottom: 30, justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <TouchableOpacity
-                            onPress={() => props.navigation.goBack()}>
+                            onPress={() => navigation.goBack()}>
                             <Image
                                 style={{ height: 15, width: 15 }}
                                 source={longBackArrow}

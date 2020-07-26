@@ -12,7 +12,7 @@ import {
 import Card from '../../../../components/common/Card';
 
 
-const OTP = (props) => {
+const OTP = ({navigation}) => {
     const [mobile, setMobile] = useState('');
     const [isVerified, setIsVerified] = useState(true);
     const [pin1, setPin1] = useState(null);
@@ -27,7 +27,7 @@ const OTP = (props) => {
     const verifyOtp = () => {
         if(pin1 && pin2 && pin3 && pin4){
             console.log(pin1,pin2,pin3,pin4)
-            props.navigation.navigate('VerifiedOTP');
+            navigation.navigate('VerifiedOTP');
         }
     }
     // const otpValueChange = () =>{

@@ -8,6 +8,10 @@ import CreateGroupProfile from '../../../screens/module/Home/Components/createGr
 import ManageGroup from '../../../screens/module/Home/Components/manageGroup';
 import StartCall from '../../../screens/module/Home/Components/startCall';
 import Calling from '../../../screens/module/Home/Components/calling';
+import MyProfile from '../../../screens/module/Home/Components/myProfile';
+import Settings from '../../../screens/module/Home/Components/settings';
+
+
 
 
 
@@ -24,6 +28,9 @@ const HomeStack = (props) => {
         <Stack.Screen name='ManageGroup' component={ManageGroup} initialParams={props} options={{ headerShown: false }} />
         <Stack.Screen name='StartCall' component={StartCall} initialParams={props} options={{ headerShown: false }} />
         <Stack.Screen name='Calling' component={Calling} initialParams={props} options={{ headerShown: false }} />
+        <Stack.Screen name='MyProfile' component={MyProfile} initialParams={props} options={{ headerShown: false }} />
+        <Stack.Screen name='Settings' component={Settings} initialParams={props} options={{ headerShown: false }} />
+
 
 
 

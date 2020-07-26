@@ -4,16 +4,16 @@ import Card from '../../../../components/common/Card'
 import dummyChat from './dummy-data-chat';
 let deviceWidth = Dimensions.get('window').width;
 let deviceHeight = Dimensions.get('window').height;
-const chats = (props) => {
+const chats = ({navigation}) => {
     const [showAddButton, setShowAddButton] = useState(false);
-    console.log(props)
+    // console.log(props) 
     return (
         <View style={{ flex: 1, }}>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 data={dummyChat}
                 renderItem={({ item, index }) => (
-                    <TouchableOpacity onPress={()=>props.navigation.navigate('SingleChat')}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('SingleChat')}>
                         <View 
                         style={styles.singleChatContainer}>
                             <View style={{ borderRadius: 20 }}>
@@ -41,7 +41,7 @@ const chats = (props) => {
                     {
                         showAddButton ?
                             <View>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('StartGroup')}>
+                                <TouchableOpacity onPress={() => navigation.navigate('StartGroup')}>
                                     <View style={[styles.messageIconBackground, { marginTop: 5 }]}>
                                         <ImageBackground
                                             style={styles.messageImage}
@@ -51,7 +51,7 @@ const chats = (props) => {
                                     </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity onPress={() => props.navigation.navigate('StartChat')}>
+                                <TouchableOpacity onPress={() => navigation.navigate('StartChat')}>
                                     <View style={[styles.messageIconBackground, { marginTop: 20 }]}>
                                         <ImageBackground
                                             style={styles.messageImage}

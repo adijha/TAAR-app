@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-const registrationSuccessful = (props) => {
+const registrationSuccessful = ({navigation}) => {
     return (
         <View style={styles.container}>
             <Image
@@ -25,7 +25,7 @@ const registrationSuccessful = (props) => {
             />
             <Text style={styles.registerText}>Registration successfully completed</Text>
                 <TouchableOpacity
-                onPress={()=>props.navigation.navigate('HomeStack')}
+                onPress={()=>navigation.navigate('HomeStack')}
                     style={styles.buttonChatting}>
                     <Text style={styles.startText}>START CHATTING</Text>
                 </TouchableOpacity>

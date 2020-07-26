@@ -27,7 +27,7 @@ export const dummyUserSelectedgroup = [
 
 ]
 
-const startGroup = (props) => {
+const startGroup = ({navigation}) => {
 
     return (
         <View style={styles.container}>
@@ -36,7 +36,7 @@ const startGroup = (props) => {
                     <View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <TouchableOpacity
-                                onPress={() => props.navigation.goBack()}>
+                                onPress={() => navigation.goBack()}>
                                 <Image
                                     style={{ height: 15, width: 15 }}
                                     source={longBackArrow}
@@ -67,7 +67,7 @@ const startGroup = (props) => {
                                 </View>
                             </View> :
                             <TouchableOpacity
-                                onPress={() => props.navigation.navigate('CreateGroupProfile')}
+                                onPress={() => navigation.navigate('CreateGroupProfile')}
                             >
                                 <View>
                                     <Text style={{ color: '#F8F8F8', fontSize: 16, letterSpacing: 2.5, fontWeight: '600' }}>NEXT</Text>

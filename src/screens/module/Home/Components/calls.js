@@ -4,22 +4,22 @@ import Card from '../../../../components/common/Card'
 import dummyChat from './dummy-data-chat';
 let deviceWidth = Dimensions.get('window').width;
 let deviceHeight = Dimensions.get('window').height;
-const calls = (props) => {
+const calls = ({navigation}) => {
     const [showAddButton, setShowAddButton] = useState(false);
     const onPressNewCall = () => {
-        props.navigation.navigate('StartCall')
+        navigation.navigate('StartCall')
     }
     const onPressUserCall = (item) => {
-        props.navigation.navigate('Calling', { user: item });
+        navigation.navigate('Calling', { user: item });
     }
-    console.log(props);
+    // console.log(props);
     return (
         <View style={{ flex: 1, }}>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 data={dummyChat}
                 renderItem={({ item, index }) => (
-                    <TouchableOpacity onPress={() => props.navigation.navigate('SingleChat')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('SingleChat')}>
                         <View
                             style={styles.singleChatContainer}>
                             <View style={{ borderRadius: 20 }}>

@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-const verifiedOTP = (props) => {
+const verifiedOTP = ({navigation}) => {
     const [wait, setWait] = useState(true);
     useEffect(() => {
       setTimeout(() => {
@@ -15,7 +15,7 @@ const verifiedOTP = (props) => {
       }, 3000);
     }, []);
     useEffect(()=>{
-        props.navigation.navigate('CreateAccount');
+        navigation.navigate('CreateAccount');
     },[wait])
   return (
     <View style={styles.container}>

@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
 import dummyUserList from './dummy-data-userList';
-const startChat = (props) => {
+const startChat = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={{ backgroundColor: '#005082', paddingTop: Platform.OS === 'ios' ? 40 : 10, }}>
                 <View style={{ paddingTop: 20, paddingBottom: 30, justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <TouchableOpacity
-                            onPress={() => props.navigation.goBack()}>
+                            onPress={() => navigation.goBack()}>
                             <Image
                                 style={{ height: 15, width: 15 }}
                                 source={longBackArrow}

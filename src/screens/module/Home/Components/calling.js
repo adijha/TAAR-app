@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const calling = (props) => {
-    console.log(props);
+const calling = ({navigation}) => {
+    // console.log(props);
     const { user } = props.route.params;
     const onEndCall = () =>{
-        props.navigation.goBack();
+        navigation.goBack();
     }
     return (
         <View style={styles.container}>

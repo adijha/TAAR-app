@@ -25,7 +25,7 @@ class ManageGroup extends React.Component {
                         <View>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <TouchableOpacity
-                                    onPress={() => props.navigation.goBack()}>
+                                    onPress={() => this.props.navigation.goBack()}>
                                     <Image
                                         style={{ height: 15, width: 15 }}
                                         source={longBackArrow}
@@ -94,7 +94,7 @@ class ManageGroup extends React.Component {
                     </View>
                     <View style={{ marginTop: 20 }}>
                         <TouchableOpacity
-                            onPress={() => props.navigation.navigate('SingleChat')}
+                            onPress={() => this.props.navigation.navigate('SingleChat')}
                             style={[styles.btn, { borderColor: this.state.groupName.length !== 0 ? '#39B54A' : '#000' }]}
                         >
                             <Text style={[styles.btnText, { color: this.state.groupName.length !== 0 ? '#39B54A' : '#000' }]}>DONE</Text>

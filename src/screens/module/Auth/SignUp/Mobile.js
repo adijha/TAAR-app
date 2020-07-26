@@ -10,12 +10,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Card from '../../../../components/common/Card';
-const MobileScreen = (props) => {
+const MobileScreen = ({navigation}) => {
   const [mobile, setMobile] = useState('');
   const [space, setSpace] = useState(false);
   const getOtp = () =>{
     if(mobile.length===10){
-      props.navigation.navigate('OTP');
+      navigation.navigate('OTP');
     }
   }
   return (

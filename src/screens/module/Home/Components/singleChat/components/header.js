@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
 
 
-const Header = (props) => {
+const Header = ({navigation}) => {
     const [isGroupChat, setIsGroupChat] = useState(true);
     const onPressGroupHeader = () =>{
-        isGroupChat ? props.navigation.navigate('ManageGroup'):null;
+        isGroupChat ? navigation.navigate('ManageGroup'):null;
     }
     const onPressBackArrow = () =>{
-        props.navigation.goBack()
+        navigation.goBack()
     }
     return (
         <View style={{ backgroundColor: '#005082', paddingTop: '10%', }}>

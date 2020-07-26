@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
 import { dummyUserSelectedgroup } from './startGroup';
-const CreateGroupProfile = (props) => {
+const CreateGroupProfile = ({navigation}) => {
     const [groupName, setGroupName] = useState('');
     return (
         <View style={styles.container}>
@@ -10,7 +10,7 @@ const CreateGroupProfile = (props) => {
                     <View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <TouchableOpacity
-                                onPress={() => props.navigation.goBack()}>
+                                onPress={() => navigation.goBack()}>
                                 <Image
                                     style={{ height: 15, width: 15 }}
                                     source={longBackArrow}
@@ -66,7 +66,7 @@ const CreateGroupProfile = (props) => {
                 </View>
                 <View style={{ marginTop: 20 }}>
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate('SingleChat')}
+                        onPress={() => navigation.navigate('SingleChat')}
                         style={[styles.btn, { borderColor: groupName.length !== 0 ? '#39B54A' : '#000' }]}
                     >
                         <Text style={[styles.btnText, { color: groupName.length !== 0 ? '#39B54A' : '#000' }]}>DONE</Text>

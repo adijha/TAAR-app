@@ -4,7 +4,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import Card from '../../../../components/common/Card';
 
-const createAccount = (props) => {
+const createAccount = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [gender, setGender] = useState('male');
@@ -12,7 +12,7 @@ const createAccount = (props) => {
 
     const onClickRegister = () => {
         if (firstName && lastName && gender) {
-            props.navigation.navigate('RegisterSuccess');
+            navigation.navigate('RegisterSuccess');
 
         }
     }
