@@ -8,14 +8,24 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import Card from '../../../../components/common/Card';
-const MobileScreen = ({navigation}) => {
+import { getOtp } from './signupAction';
+import { connect } from 'react-redux';
+
+const MobileScreen = ({ navigation, getOtp, signupReducer }) => {
   const [mobile, setMobile] = useState('');
   const [space, setSpace] = useState(false);
-  const getOtp = () =>{
-    if(mobile.length===10){
-      navigation.navigate('OTP');
+  const getOtpCode = () => {
+    if (mobile.length === 10) {
+      const params = {
+        mobile: mobile.toString(),
+        navigation: navigation,
+        isResend:false
+      }
+      getOtp(params);
+      // navigation.navigate('OTP');
     }
   }
   return (
@@ -42,7 +52,7 @@ const MobileScreen = ({navigation}) => {
           />
         )}
       <Card
-        >
+      >
         <Text style={{ color: '#2A2A2A', fontWeight: 'bold', fontSize: 20 }}>
           Your Phone!
         </Text>
@@ -85,23 +95,24 @@ const MobileScreen = ({navigation}) => {
           {'\non this mobile number'}
         </Text>
       </Card>
-      <View style={{alignItems:'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <TouchableOpacity
-        onPress={getOtp}
+          onPress={getOtpCode}
           style={{
             borderWidth: 1,
             marginHorizontal: 30,
             height: 48,
             width: 272,
             padding: 13,
-            backgroundColor:mobile.length===10 ? '#005082':'#fff',
+            backgroundColor: mobile.length === 10 ? '#005082' : '#fff',
             justifyContent: 'center',
             alignItems: 'center',
             borderColor: '#2A2A2A',
             borderRadius: 4,
             marginTop: space ? '10%' : '35%',
           }}>
-          <Text style={{ color: mobile.length===10 ? '#fff':'#2A2A2A', fontSize: 14 ,fontWeight:'bold'}}>GET OTP</Text>
+          {signupReducer.isOtpLoading && <ActivityIndicator size='large' color='#fff' />}
+          {!signupReducer.isOtpLoading && <Text style={{ color: mobile.length === 10 ? '#fff' : '#2A2A2A', fontSize: 14, fontWeight: 'bold' }}>GET OTP</Text>}
         </TouchableOpacity>
       </View>
 
@@ -109,7 +120,15 @@ const MobileScreen = ({navigation}) => {
   );
 };
 
-export default MobileScreen;
+export default connect(
+  state => ({
+    signupReducer: state.signupReducer,
+  }),
+  dispatch => ({
+    getOtp: (params) => {
+      dispatch(getOtp(params));
+    },
+  }))(MobileScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -120,12 +139,4 @@ const styles = StyleSheet.create({
     height: 48,
     width: 271
   },
-  // shadow: {
-  //   shadowOffset: { width: 10, height: 10 },
-  //   shadowColor: 'black',
-  //   shadowOpacity: 1,
-  //   elevation: 3,
-  //   // background color must be set
-  //   backgroundColor : "#0000" // invisible color
-  // }
 });

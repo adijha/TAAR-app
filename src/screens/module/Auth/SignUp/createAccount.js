@@ -1,31 +1,67 @@
-import React, { useState } from 'react';
-import { View, Text, ImageBackground, ScrollView, Image, Platform, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ImageBackground, ActivityIndicator, Image, Platform, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import Card from '../../../../components/common/Card';
+import AsyncStorage from '@react-native-community/async-storage';
+import { connect } from 'react-redux';
+import {registerProfile} from './signupAction';
+const jwtDecode = require('jwt-decode');
 
-const createAccount = ({navigation}) => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [gender, setGender] = useState('male');
-    const [space, setSpace] = useState(false);
+class CreateAccount extends React.Component {
+    state = {
+        userData: null,
+        firstName: '',
+        lastName: '',
+        gender: 'male',
+        profilePic: '',
+        space: false,
+        id:null,
+    }
+    onClickRegister = () => {
+        if (this.state.firstName && this.state.lastName && this.state.gender) {
+            // navigation.navigate('RegisterSuccess');
+            const params = {
+                firstname:this.state.firstName,
+                lastname:this.state.lastName,
+                gender:this.state.gender,
+                photo:this.state.photo,
+                id:this.state.id,
+                navigation:this.props.navigation
 
-    const onClickRegister = () => {
-        if (firstName && lastName && gender) {
-            navigation.navigate('RegisterSuccess');
+            }
+            this.props.registerProfile(params)
 
         }
     }
+    componentDidMount() {
+        AsyncStorage.getItem('access_token').then((token) => {
+            console.log(token);
+            let userData = jwtDecode(token);
+            console.log(userData);
 
-    return (
-        // <ScrollView style={{flex:1}}>
+            this.setState(
+                {
+                    firstName: userData.data.firstname,
+                    lastName: userData.data.lastname,
+                    profilePic: userData.data.photo,
+                    id:userData.id
+                })
+            // this.setState({ 
+            //   dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds)
+            // });
+
+        });
+    }
+    render() {
+        return (
             <View>
                 <View>
                     <ImageBackground source={blueBackGround}
                         style={{ width: '100%', height: 375 }}
                     >
                         {
-                            space ?
+                            this.state.space ?
                                 null :
                                 <View style={{ marginTop: '20%', justifyContent: 'space-between', flexDirection: 'row' }}>
 
@@ -56,7 +92,7 @@ const createAccount = ({navigation}) => {
                     <View
                         style={{
                             position: 'absolute',
-                            top: space ? Platform.OS === 'ios' ? '5%' : '-9%' : '60%',
+                            top: this.state.space ? Platform.OS === 'ios' ? '5%' : '-9%' : '60%',
                             padding: 15,
                             borderRadius: 9,
                             elevation: 3,
@@ -73,21 +109,38 @@ const createAccount = ({navigation}) => {
                             alignSelf: 'center',
                             paddingHorizontal: 31
                         }}>
-                        <View style={{ alignItems: 'center' }}>
-                            <Image
-                                style={{ borderWidth: 3, borderRadius: 45, width: 92, height: 92, borderColor: 'rgba(0, 0, 0, 0.15)' }}
-                                source={dummyPic}
-                            />
-                        </View>
-                        <View style={{ position: 'absolute', top: '18%', left: '65%' }}>
-                            <TouchableOpacity>
-                                <Image
-                                    style={{ borderWidth: 3, borderRadius: 15, width: 30, height: 30, borderColor: '#fff' }}
-                                    source={cameraIcon}
-                                />
-                            </TouchableOpacity>
+                        {
+                            this.state.profilePic ?
+                                <View>
+                                    <View style={{ alignItems: 'center' }}>
+                                        <Image
+                                            style={{ borderWidth: 3, borderRadius: 45, width: 92, height: 92, borderColor: 'rgba(0, 0, 0, 0.15)' }}
+                                            source={dummyPic}
+                                        />
+                                    </View>
+                                    <View style={{ position: 'absolute', top: '18%', left: '65%' }}>
+                                        <TouchableOpacity>
+                                            <Image
+                                                style={{ borderWidth: 3, borderRadius: 15, width: 30, height: 30, borderColor: '#fff' }}
+                                                source={cameraIcon}
+                                            />
+                                        </TouchableOpacity>
 
-                        </View>
+                                    </View>
+                                </View>
+                                :
+                                <View style={{alignItems:'center'}}>
+                                    <View style={styles.dummyPic}>
+                                        <Image
+                                            source={cameraIcon}
+                                            style={{ width: 19, height: 17 }}
+                                        />
+                                    </View>
+                                </View>
+
+                        }
+
+
                         <View style={{ alignItems: 'center', marginTop: 24 }}>
                             <Text style={{ color: '#666666', fontSize: 14, fontWeight: '600', letterSpacing: 0.84 }}>Add Profile Pic</Text>
                         </View>
@@ -98,10 +151,10 @@ const createAccount = ({navigation}) => {
                                     editable={true}
                                     placeholder="Enter your First Name"
                                     // maxLength={10}
-                                    value={firstName}
-                                    onChangeText={(text) => setFirstName(text)}
-                                    onFocus={() => setSpace(true)}
-                                    // onEndEditing={() => setSpace(false)}
+                                    value={this.state.firstName}
+                                    onChangeText={(firstName) => this.setState({ firstName })}
+                                    onFocus={() => this.setState({ space: true })}
+                                // onEndEditing={() => setSpace(false)}
                                 />
                             </View>
                             <View style={{ marginVertical: 25 }}>
@@ -110,10 +163,10 @@ const createAccount = ({navigation}) => {
                                     editable={true}
                                     placeholder="Enter your Last Name"
                                     // maxLength={10}
-                                    value={lastName}
-                                    onChangeText={(text) => setLastName(text)}
-                                    onFocus={() => setSpace(true)}
-                                    // onEndEditing={() => setSpace(false)}
+                                    value={this.state.lastName}
+                                    onChangeText={(lastName) => this.setState({ lastName })}
+                                    onFocus={() => this.setState({ space: true })}
+                                // onEndEditing={() => setSpace(false)}
                                 />
                             </View>
                             <View>
@@ -134,16 +187,16 @@ const createAccount = ({navigation}) => {
                                     editable={true}
                                     placeholder="Enter your gender"
                                     // maxLength={10}
-                                    value={gender}
-                                    onChangeText={(text) => setGender(text)}
-                                    onFocus={() => setSpace(true)}
-                                    onEndEditing={() => setSpace(false)}
+                                    value={this.state.gender}
+                                    onChangeText={(gender) => this.setState({ gender })}
+                                    onFocus={() => this.setState({ space: true })}
+                                    onEndEditing={() => this.setState({ space: false })}
                                 />
                             </View>
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <TouchableOpacity
-                                onPress={onClickRegister}
+                                onPress={this.onClickRegister}
                                 style={{
                                     borderWidth: 2,
                                     height: 48,
@@ -157,18 +210,30 @@ const createAccount = ({navigation}) => {
                                     borderRadius: 4,
                                     marginTop: 25,
                                 }}>
-                                <Text style={{ color: '#39b54a', fontSize: 14, fontWeight: 'bold' }}>REGISTER</Text>
+                                {this.props.isRegisterLoading&&<ActivityIndicator size='large' color="#fff"/>}
+                                {!this.props.isRegisterLoading&&<Text style={{ color: '#39b54a', fontSize: 14, fontWeight: 'bold' }}>REGISTER</Text>}
                             </TouchableOpacity>
                         </View>
 
                     </View>
                 </View>
             </View>
-        // </ScrollView>
-
-    )
+        )
+    }
 }
-export default createAccount;
+
+
+export default connect(
+    state => ({
+        signupReducer: state.signupReducer,
+    }),
+    dispatch => ({
+        registerProfile: (params) => {
+          dispatch(registerProfile(params));
+        },
+      })
+)(CreateAccount);
+// export default createAccount;
 
 const styles = StyleSheet.create({
     allTextInput: {
@@ -180,8 +245,17 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '500',
         borderRadius: 4
-
-    }
+    },
+    dummyPic: {
+        height: 76,
+        width: 76,
+        borderRadius: 38,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 2,
+        borderColor: '#005082',
+        backgroundColor: '#F0F0F0'
+    },
     // shadow: {
     //   shadowOffset: { width: 10, height: 10 },
     //   shadowColor: 'black',

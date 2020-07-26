@@ -8,12 +8,16 @@ import {
     TextInput,
     Keyboard,
     TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native';
 import Card from '../../../../components/common/Card';
+import {connect} from 'react-redux';
+import { getOtp,verifyOtp } from './signupAction';
 
-
-const OTP = ({navigation}) => {
-    const [mobile, setMobile] = useState('');
+const OTP = ({ navigation,signupReducer,getOtp,verifyOtp }) => {
+    let {mobile,otp,isverifyLoading} = signupReducer;
+    const[matchError,setMatchError] = useState('');
+    // const [mobile, setMobile] = useState('');
     const [isVerified, setIsVerified] = useState(true);
     const [pin1, setPin1] = useState(null);
     const [pin2, setPin2] = useState(null);
@@ -24,12 +28,32 @@ const OTP = ({navigation}) => {
     const pin3ref = useRef(null);
     const pin4ref = useRef(null);
     const [space, setSpace] = useState(false);
-    const verifyOtp = () => {
-        if(pin1 && pin2 && pin3 && pin4){
-            console.log(pin1,pin2,pin3,pin4)
-            navigation.navigate('VerifiedOTP');
+
+    const onPressVerifyOtp = () => {
+        let enterPin = pin1.concat(pin2).concat(pin3).concat(pin4);
+        if(enterPin!==otp){
+            setMatchError('OTP not matched! Try again!')
+        }
+        if (pin1 && pin2 && pin3 && pin4 && enterPin===otp) {
+            const params = {
+                mobile: mobile,
+                navigation: navigation,
+                otp:otp
+              }
+            verifyOtp(params)
+            setMatchError('');
+            // navigation.navigate('VerifiedOTP');
         }
     }
+    const onResendOtp = () =>{
+        const params = {
+            mobile: mobile,
+            navigation: navigation,
+            isResend:true
+          }
+          getOtp(params);
+    }
+    
     // const otpValueChange = () =>{
     //     // if(!otpValue){
     //         let newValue = otpValue*
@@ -95,7 +119,7 @@ const OTP = ({navigation}) => {
                                 // value={mobile}
                                 // onChangeText={(text) => setMobile(text)}
                                 onFocus={() => setSpace(true)}
-                                // onEndEditing={() => setSpace(false)}
+                            // onEndEditing={() => setSpace(false)}
                             />
 
                         </View>
@@ -113,7 +137,7 @@ const OTP = ({navigation}) => {
                                 ref={pin2ref}
                                 onChangeText={(pin2) => {
                                     setPin2(pin2);
-                                    if(pin2){
+                                    if (pin2) {
                                         pin3ref.current.focus()
                                     }
                                 }}
@@ -125,7 +149,7 @@ const OTP = ({navigation}) => {
                                 // value={mobile}
                                 // onChangeText={(text) => setMobile(text)}
                                 onFocus={() => setSpace(true)}
-                                // onEndEditing={() => setSpace(false)}
+                            // onEndEditing={() => setSpace(false)}
                             />
 
                         </View>
@@ -142,7 +166,7 @@ const OTP = ({navigation}) => {
                                 ref={pin3ref}
                                 onChangeText={(pin3) => {
                                     setPin3(pin3);
-                                    if(pin3){
+                                    if (pin3) {
                                         pin4ref.current.focus()
                                     }
                                 }}
@@ -154,7 +178,7 @@ const OTP = ({navigation}) => {
                                 // value={mobile}
                                 // onChangeText={(text) => setMobile(text)}
                                 onFocus={() => setSpace(true)}
-                                // onEndEditing={() => setSpace(false)}
+                            // onEndEditing={() => setSpace(false)}
                             />
 
                         </View>
@@ -172,12 +196,12 @@ const OTP = ({navigation}) => {
                                     ref={pin4ref}
                                     onChangeText={(pin4) => {
                                         setPin4(pin4);
-                                        if(pin4){
+                                        if (pin4) {
                                             pin4ref.current.focus(false);
                                             setSpace(false);
                                             Keyboard.dismiss()
                                         }
-                                        
+
                                     }}
                                     value={pin4}
                                     style={[styles.otpTextInput, { color: isVerified ? 'rgba(42, 42, 42, 0.8)' : 'rgba(203, 93, 93, 0.5)' }]}
@@ -187,41 +211,45 @@ const OTP = ({navigation}) => {
                                     // value={mobile}
                                     // onChangeText={(text) => setMobile(text)}
                                     onFocus={() => setSpace(true)}
-                                    // onEndEditing={() => setSpace(false)}
+                                // onEndEditing={() => setSpace(false)}
                                 />
                             </View>
 
                         </View>
                     </View>
-
+                    {
+                        matchError ? 
+                        <Text style={{marginTop:10,color:'#D53B3B'}}>{matchError}</Text>
+:null
+                    }
                     <Text style={{ marginRight: 22, marginTop: 25, fontSize: 12 }}>
                         {'Enter the OTP you received to'}
                     </Text>
                     <Text style={{ marginRight: 22, marginTop: 3, fontSize: 12, fontWeight: 'bold' }}>
-                        {'+91 XXXXXX1234'}
+                        {`+91 XXXXXX${mobile[mobile.length-4]}${mobile[mobile.length-3]}${mobile[mobile.length-2]}${mobile[mobile.length-1]}`}
                     </Text>
                     <View style={{ flexDirection: 'row', marginTop: 21 }}>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#005082' }}>{'RESEND OTP'}</Text>
+                        <Text onPress={onResendOtp} style={{ fontSize: 14, fontWeight: 'bold', color: '#005082' }}>{'RESEND OTP'}</Text>
                     </View>
                 </View>
 
             </Card>
             <View style={{ alignItems: 'center' }}>
                 <TouchableOpacity
-                    onPress={verifyOtp}
+                    onPress={onPressVerifyOtp}
                     style={{
                         marginHorizontal: 30,
                         height: 48,
                         width: 272,
                         padding: 13,
-                        backgroundColor: mobile.length === 10 ? '#005082' : '#fff',
                         justifyContent: 'center',
                         alignItems: 'center',
                         borderRadius: 4,
                         backgroundColor: isVerified ? '#39b54a' : '#d53b3b',
                         marginTop: space ? '5%' : '35%',
                     }}>
-                    <Text style={{ letterSpacing: 2.1, color: '#fff', fontSize: 14, fontWeight: 'bold' }}>{isVerified ? 'VERIFY' : 'TRY AGAIN'}</Text>
+                        {isverifyLoading&&<ActivityIndicator size='large' color='#fff'/>}
+                    {!isverifyLoading&&<Text style={{ letterSpacing: 2.1, color: '#fff', fontSize: 14, fontWeight: 'bold' }}>{isVerified && !matchError ? 'VERIFY' : 'TRY AGAIN'}</Text>}
                 </TouchableOpacity>
             </View>
 
@@ -229,7 +257,21 @@ const OTP = ({navigation}) => {
     );
 };
 
-export default OTP;
+export default connect(
+    state => ({
+        signupReducer: state.signupReducer,
+    }),
+    dispatch => ({
+        getOtp: (params) => {
+          dispatch(getOtp(params));
+        },
+        verifyOtp: (params) => {
+            dispatch(verifyOtp(params));
+          },
+      })
+)(OTP);
+
+// export default OTP;
 
 const styles = StyleSheet.create({
     container: {

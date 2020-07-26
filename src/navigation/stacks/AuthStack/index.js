@@ -7,27 +7,63 @@ import OTP from '../../../screens/module/Auth/SignUp/OTP';
 import VerifiedOTP from '../../../screens/module/Auth/SignUp/verifiedOTP';
 import CreateAccount from '../../../screens/module/Auth/SignUp/createAccount';
 import RegisterSuccess from '../../../screens/module/Auth/SignUp/registrationSuccessful';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const Stack = createStackNavigator();
 const AuthStack = (props) => {
-    return (
-      <Stack.Navigator headerMode={'screen'} >
-        {/* <Stack.Screen name='Login' component={Login} initialParams={props} options={{ headerShown: false }} /> */}
-        <Stack.Screen name='SignupStack' component={SignupStack} initialParams={props} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    )
-  }
-  export default AuthStack;
+  return (
+    <Stack.Navigator headerMode={'screen'} >
+      {/* <Stack.Screen name='Login' component={Login} initialParams={props} options={{ headerShown: false }} /> */}
+      <Stack.Screen name='SignupStack' component={SignupStack} initialParams={props} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  )
+}
+export default AuthStack;
 
-  const SignupStack = (props) =>{
+class SignupStack extends React.Component{
+  state={
+    token:'',
+  }
+  componentDidMount(){ 
+    AsyncStorage.getItem('access_token').then((token) => {           
+      console.log(token);
+      this.setState({token:token})
+      // this.setState({ 
+      //   dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds)
+      // });
+  
+    });
+  }
+  render(){
+    console.log('token',this.state.token)
     return(
-      <Stack.Navigator headerMode={'screen'} >
-        <Stack.Screen name='MobileScreen' component={MobileScreen} initialParams={props} options={{ headerShown: false }} />
-        <Stack.Screen name='OTP' component={OTP} initialParams={props} options={{ headerShown: false }} />
-        <Stack.Screen name='VerifiedOTP' component={VerifiedOTP} initialParams={props} options={{ headerShown: false }} />
-        <Stack.Screen name='CreateAccount' component={CreateAccount} initialParams={props} options={{ headerShown: false }} />
-        <Stack.Screen name='RegisterSuccess' component={RegisterSuccess} initialParams={props} options={{ headerShown: false }} />
-      </Stack.Navigator>
+      <Stack.Navigator headerMode={'screen'}
+    initialRouteName={this.state.token ?'CreateAccount':'MobileScreen'}
+    >
+      <Stack.Screen name='MobileScreen' component={MobileScreen} initialParams={this.props} options={{ headerShown: false }} />
+      <Stack.Screen name='OTP' component={OTP} initialParams={this.props} options={{ headerShown: false }} />
+      <Stack.Screen name='VerifiedOTP' component={VerifiedOTP} initialParams={this.props} options={{ headerShown: false }} />
+      <Stack.Screen name='CreateAccount' component={CreateAccount} initialParams={this.props} options={{ headerShown: false }} />
+      <Stack.Screen name='RegisterSuccess' component={RegisterSuccess} initialParams={this.props} options={{ headerShown: false }} />
+    </Stack.Navigator>
     )
   }
+}
+
+// const SignupStack = (props) => {
+//     console.log(getStorageToken());
+//   // getStorageToken()
+//   // console.log(token)
+//   return (
+//     <Stack.Navigator headerMode={'screen'}
+//     // initialRouteName={token!=='none'?'CreateAccount':'MobileScreen'}
+//     >
+//       <Stack.Screen name='MobileScreen' component={MobileScreen} initialParams={props} options={{ headerShown: false }} />
+//       <Stack.Screen name='OTP' component={OTP} initialParams={props} options={{ headerShown: false }} />
+//       <Stack.Screen name='VerifiedOTP' component={VerifiedOTP} initialParams={props} options={{ headerShown: false }} />
+//       <Stack.Screen name='CreateAccount' component={CreateAccount} initialParams={props} options={{ headerShown: false }} />
+//       <Stack.Screen name='RegisterSuccess' component={RegisterSuccess} initialParams={props} options={{ headerShown: false }} />
+//     </Stack.Navigator>
+//   )
+// }
