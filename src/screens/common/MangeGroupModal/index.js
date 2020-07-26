@@ -59,20 +59,15 @@ class ManageGroupModal extends Component {
                                     <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>YES, {this.props.isRemoveMember ? 'REMOVE':'DELETE'}</Text>
                                 </TouchableOpacity>
                             </View>
-
                             <View style={{alignItems:'center'}}>
                                     <Text 
                                     onPress={this.props.closeModal}
                                     style={{color:'#005082',fontSize:14,fontWeight:'bold'}}>NO, {this.props.isRemoveMember ? "DON'T REMOVE":'CANCEL IT'}</Text>
-
                             </View>
                         </View>
                     </View>
                 </Card>
             </Modal>
-
-
-
         );
     }
 }

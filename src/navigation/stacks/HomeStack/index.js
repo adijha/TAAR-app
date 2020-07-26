@@ -6,6 +6,10 @@ import StartGroup from '../../../screens/module/Home/Components/startGroup';
 import SingleChat from '../../../screens/module/Home/Components/singleChat';
 import CreateGroupProfile from '../../../screens/module/Home/Components/createGroupProfile';
 import ManageGroup from '../../../screens/module/Home/Components/manageGroup';
+import StartCall from '../../../screens/module/Home/Components/startCall';
+import Calling from '../../../screens/module/Home/Components/calling';
+
+
 
 
 const Stack = createStackNavigator();
@@ -18,6 +22,10 @@ const HomeStack = (props) => {
         <Stack.Screen name='SingleChat' component={SingleChat} initialParams={props} options={{ headerShown: false }} />
         <Stack.Screen name='CreateGroupProfile' component={CreateGroupProfile} initialParams={props} options={{ headerShown: false }} />
         <Stack.Screen name='ManageGroup' component={ManageGroup} initialParams={props} options={{ headerShown: false }} />
+        <Stack.Screen name='StartCall' component={StartCall} initialParams={props} options={{ headerShown: false }} />
+        <Stack.Screen name='Calling' component={Calling} initialParams={props} options={{ headerShown: false }} />
+
+
 
 
       </Stack.Navigator>
