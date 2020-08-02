@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import {widthPercentageToDP,heightPercentageToDP} from 'react-native-responsive-screen';
 import Card from '../../../../components/common/Card';
 import { getOtp } from './signupAction';
 import { connect } from 'react-redux';
@@ -34,29 +35,29 @@ const MobileScreen = ({ navigation, getOtp, signupReducer }) => {
         <Image
           source={require('../../../../icons/logo.png')}
           style={{
-            width: 110,
+            width: widthPercentageToDP(40),
             alignSelf: 'center',
             resizeMode: 'contain',
-            marginTop: 70,
+            marginTop: heightPercentageToDP(10),
           }}
         />
       ) : (
           <Image
             source={require('../../../../icons/logoBig.png')}
             style={{
-              width: 110,
+              width: widthPercentageToDP(40),
               alignSelf: 'center',
               resizeMode: 'contain',
-              marginTop: 70,
+              marginTop: heightPercentageToDP(10),
             }}
           />
         )}
       <Card
       >
-        <Text style={{ color: '#2A2A2A', fontWeight: 'bold', fontSize: 20 }}>
+        <Text style={{ color: '#2A2A2A', fontWeight: 'bold', fontSize: widthPercentageToDP(5) }}>
           Your Phone!
         </Text>
-        <Text style={{ marginTop: 20, fontSize: 14, fontWeight: 'normal' }}>Phone Number</Text>
+        <Text style={{ marginTop: heightPercentageToDP(2), fontSize: widthPercentageToDP(3.5), fontWeight: 'normal' }}>Phone Number</Text>
         <View
           style={{
             flexDirection: 'row',
@@ -65,8 +66,8 @@ const MobileScreen = ({ navigation, getOtp, signupReducer }) => {
             borderColor: '#005082',
             // padding: 5,
             borderRadius: 4,
-            marginTop: 10,
-            paddingHorizontal: 13,
+            marginTop: heightPercentageToDP(2),
+            paddingHorizontal: widthPercentageToDP(5),
           }}>
           <Text
             style={{

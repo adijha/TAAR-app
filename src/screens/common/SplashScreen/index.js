@@ -6,8 +6,31 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native';
+import {getAsyncStorage,keys} from '../../../asyncStorage';
+import JwtDecode from 'jwt-decode';
+import {setUserId} from '../../../utils/constants';
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
+  useEffect(() => {
+    const redirect = setTimeout(() => {
+      getAsyncStorage(keys.access_token)
+        .then((token) => {
+          if (token) {
+            let userData = JwtDecode(token);
+            setUserId(userData.id);
+            // setUniqueValue(token);
+            navigation.replace('HomeStack');
+          } else {
+            navigation.replace('AuthStack');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          navigation.replace('AuthStack');
+        });
+    }, 2000);
+    return () => clearTimeout(redirect);
+  }, [navigation]);
   return (
     <View style={styles.container}>
       <Image

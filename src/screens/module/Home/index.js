@@ -1,39 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Platform, TouchableOpacity, StyleSheet } from 'react-native';
 import Chats from './Components/chats';
 import Calls from './Components/calls';
 import BillPay from './Components/billPay';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeHeader from './Components/homeHeader';
-
 const Tab = createMaterialTopTabNavigator();
 
-const Home = ({navigation}) => {
+
+const Home = ({ navigation }) => {
     return (
-        <View style={{flex:1}}>
-            <View style={{flex:1,backgroundColor: '#005082',  paddingTop: Platform.OS === 'ios' ? 40 : 10, }}>
-            <HomeHeader navigation={navigation}/>
-                <View style={{flex:1,}}>
+        <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#005082', paddingTop: Platform.OS === 'ios' ? 40 : 10, }}>
+                <HomeHeader navigation={navigation} />
+                <View style={{ flex: 1, }}>
                     <Tab.Navigator
                         tabBarOptions={{
-                            tabStyle:{
-                                backgroundColor:'#005082',
-                                borderBottomWidth:3,
-                                borderBottomColor:'#fff',
+                            tabStyle: {
+                                backgroundColor: '#005082',
+                                borderBottomWidth: 3,
+                                borderBottomColor: '#fff',
                             },
-                             activeTintColor: '#F8F8F8',
+                            activeTintColor: '#F8F8F8',
                             inactiveTintColor: 'grey',
                             labelStyle: { fontSize: 15, fontWeight: '500' }
                         }}>
                         <Tab.Screen name="Chats">{() => <Chats navigation={navigation} />}</Tab.Screen>
                         <Tab.Screen name="Calls">{() => <Calls navigation={navigation} />}</Tab.Screen>
                         <Tab.Screen name="Bil Pays">{() => <BillPay navigation={navigation} />}</Tab.Screen>
-
                     </Tab.Navigator>
                 </View>
             </View>
         </View>
-
     )
 }
 export default Home;

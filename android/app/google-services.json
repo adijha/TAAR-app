@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "860093786146",
+    "firebase_url": "https://taar-backend.firebaseio.com",
+    "project_id": "taar-backend",
+    "storage_bucket": "taar-backend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860093786146:android:7a53d64db0c5437fd2427b",
+        "android_client_info": {
+          "package_name": "com.taarapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860093786146-uvgikf0bepq96ooqcjsut5jauigguc25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV71NHdtlnO6nf_WmK4vECd9dEBOkZzZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860093786146-uvgikf0bepq96ooqcjsut5jauigguc25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

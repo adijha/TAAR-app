@@ -68,7 +68,7 @@ const OTP = ({ navigation,signupReducer,getOtp,verifyOtp }) => {
                         width: 110,
                         alignSelf: 'center',
                         resizeMode: 'contain',
-                        marginTop: 70,
+                        marginTop: '10%',
                     }}
                 />
             ) : (
@@ -78,7 +78,7 @@ const OTP = ({ navigation,signupReducer,getOtp,verifyOtp }) => {
                             width: 110,
                             alignSelf: 'center',
                             resizeMode: 'contain',
-                            marginTop: 70,
+                            marginTop: '10%',
                         }}
                     />
                 )}
@@ -234,7 +234,7 @@ const OTP = ({ navigation,signupReducer,getOtp,verifyOtp }) => {
                 </View>
 
             </Card>
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center',justifyContent:'flex-start', }}>
                 <TouchableOpacity
                     onPress={onPressVerifyOtp}
                     style={{
@@ -242,11 +242,11 @@ const OTP = ({ navigation,signupReducer,getOtp,verifyOtp }) => {
                         height: 48,
                         width: 272,
                         padding: 13,
-                        justifyContent: 'center',
+                        justifyContent: 'flex-start',
                         alignItems: 'center',
                         borderRadius: 4,
                         backgroundColor: isVerified ? '#39b54a' : '#d53b3b',
-                        marginTop: space ? '5%' : '35%',
+                        marginTop: space ? '5%' : '25%',
                     }}>
                         {isverifyLoading&&<ActivityIndicator size='large' color='#fff'/>}
                     {!isverifyLoading&&<Text style={{ letterSpacing: 2.1, color: '#fff', fontSize: 14, fontWeight: 'bold' }}>{isVerified && !matchError ? 'VERIFY' : 'TRY AGAIN'}</Text>}

@@ -10,6 +10,9 @@ export const verifyOtpStart='verifyOtpStart';
 export const verifyOtpSuccess='verifyOtpSuccess';
 export const registerStart='registerStart';
 export const registerSuccess='registerSuccess';
+export const setLoggedInUser='setLoggedInUser';
+export const setAllUsers='setAllUsers';
+
 
 
 

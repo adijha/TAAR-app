@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
 
 
-const Header = ({navigation}) => {
-    const [isGroupChat, setIsGroupChat] = useState(true);
+const Header = ({navigation,img,imgText,name}) => {
+    const [isGroupChat, setIsGroupChat] = useState(false);
     const onPressGroupHeader = () =>{
         isGroupChat ? navigation.navigate('ManageGroup'):null;
     }
@@ -23,15 +23,22 @@ const Header = ({navigation}) => {
                         />
                     </TouchableOpacity>
 
-                    <Image
-                        style={{ height: 37, width: 37, marginHorizontal: 12 }}
-                        source={dummyPic}
-                    />
+                    {
+                        img?
+                        <Image
+                        style={{ height: 37, width: 37, marginHorizontal: 12,borderRadius:37/2 }}
+                        source={{uri:img}}
+                    />:
+                    <View style={{height: 37,justifyContent:'center',alignItems:'center', width: 37, marginHorizontal: 12,backgroundColor:'grey'}}>
+                        <Text>imgText</Text>
+                    </View>
+                    }
+                   
                     <TouchableOpacity
                     onPress={onPressGroupHeader}
                     >
                         <View>
-                            <Text style={{ marginLeft: 0, color: '#f8f8f8', fontSize: 16, fontWeight: '600', letterSpacing: 2.5 }}>Marie Watson</Text>
+                            <Text style={{ marginLeft: 0, color: '#f8f8f8', fontSize: 16, fontWeight: '600', letterSpacing: 2.5 }}>{name}</Text>
                             {isGroupChat ?
                                 <View style={{ flexDirection: 'row', marginLeft: 0, }}>
                                     <Text style={[styles.userSelectedText, { fontWeight: 'bold' }]}>3</Text>

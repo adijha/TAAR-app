@@ -1,12 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ImageBackground, ActivityIndicator, Image, Platform, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+    View,
+    Text,
+    ImageBackground,
+    ToastAndroid,
+    ActivityIndicator,
+    Image, Platform,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    PermissionsAndroid
+} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import Card from '../../../../components/common/Card';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
-import {registerProfile} from './signupAction';
+import { registerProfile, uploadProfile,registerDetails } from './signupAction';
 const jwtDecode = require('jwt-decode');
+import ImagePicker from 'react-native-image-picker';
+import { getAsyncStorage, keys } from "../../../../asyncStorage";
+const requestGalleryPermission = async () => {
+    if (Platform.OS === 'android') {
+        PermissionsAndroid.requestMultiple([
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        ]).then((result) => {
+            if (
+                result['android.permission.CAMERA'] &&
+                result['android.permission.READ_EXTERNAL_STORAGE'] &&
+                result['android.permission.WRITE_EXTERNAL_STORAGE'] === 'granted'
+            ) {
+                ToastAndroid.show("Permission Granted!", ToastAndroid.LONG);
+            }
+            else if (
+                result['android.permission.CAMERA'] ||
+                result['android.permission.READ_EXTERNAL_STORAGE'] ||
+                result['android.permission.WRITE_EXTERNAL_STORAGE'] === 'denied'
+            ) {
+                ToastAndroid.show('Permissions denied', ToastAndroid.LONG);
+            } else if (
+                result['android.permission.CAMERA'] ||
+                result['android.permission.READ_EXTERNAL_STORAGE'] ||
+                result['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+                'never_ask_again'
+            ) {
+                ToastAndroid.show(
+                    'Please Go into Settings -> Applications -> TAAR -> Permissions and Allow permissions to continue',
+                    ToastAndroid.LONG,
+                );
+            }
+        });
+    } //...........................ios
+    // else {
+    //   ImagePicker.launchImageLibrary(options, (response) => {
+    //     // console.log(response);
+    //     // console.log("Response = ", response);
+    //     if (response.didCancel) {
+    //       console.log('User cancelled image picker');
+    //     } else if (response.error) {
+    //       console.log('ImagePicker Error: ', response.error);
+    //     } else if (response.customButton) {
+    //       console.log('User tapped custom button: ', response.customButton);
+    //     } else {
+    //       const source = {uri: response.uri};
+    //       console.log(source);
+    //     }
+    //   });
+    // }
+};
+
+// export async function requestGalleryPermission() 
+// {
+//   try {
+//     const granted = awaitPermissionsAndroid.requestMultiple([
+//         PermissionsAndroid.PERMISSIONS.CAMERA,
+//         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+//         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+//       ]).then((result)=>{
+//         if (
+//             result['android.permission.CAMERA'] &&
+//             result['android.permission.READ_EXTERNAL_STORAGE'] &&
+//             result['android.permission.WRITE_EXTERNAL_STORAGE'] === 'granted'
+//           ){
+//             alert("Permission Granted!");
+//           }
+//           else if (
+//             result['android.permission.CAMERA'] ||
+//             result['android.permission.READ_EXTERNAL_STORAGE'] ||
+//             result['android.permission.WRITE_EXTERNAL_STORAGE'] === 'denied'
+//           ) {
+//             ToastAndroid.show('Permissions denied', ToastAndroid.LONG);
+//           }
+//       })
+//     // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+//     //   console.log("You can use the gallery")
+//     //   alert("You can use the gallery");
+//     // } else {
+//     //   console.log("location permission denied")
+//     //   alert("Location permission denied");
+//     // }
+//   } catch (err) {
+//     console.warn(err)
+//   }
+// }
 
 class CreateAccount extends React.Component {
     state = {
@@ -14,44 +112,173 @@ class CreateAccount extends React.Component {
         firstName: '',
         lastName: '',
         gender: 'male',
-        profilePic: '',
+        profilePic: null,
         space: false,
-        id:null,
+        id: null,
+        phoneno: '',
+        isLoadingImage: false,
     }
+    async componentWillMount() {
+        Platform.OS === 'android' ? requestGalleryPermission() : null
+    }
+
     onClickRegister = () => {
         if (this.state.firstName && this.state.lastName && this.state.gender) {
             // navigation.navigate('RegisterSuccess');
             const params = {
-                firstname:this.state.firstName,
-                lastname:this.state.lastName,
-                gender:this.state.gender,
-                photo:this.state.photo,
-                id:this.state.id,
-                navigation:this.props.navigation
-
+                firstname: this.state.firstName,
+                lastname: this.state.lastName,
+                gender: this.state.gender,
+                photo: this.state.profilePic,
+                phoneno: this.state.phoneno,
+                id: this.state.id,
+                navigation: this.props.navigation
             }
+            // this.props.registerDetails(params)
             this.props.registerProfile(params)
+        }
+    }
+    onChangePicture = async (type) => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                {
+                    title: "Taar Gallery Permission",
+                    message:
+                        "Taar needs access to your photos ",
+                    buttonNeutral: "Ask Me Later",
+                    buttonNegative: "Cancel",
+                    buttonPositive: "OK"
+                }
+            );
+            this.setState({ isLoadingImage: true })
 
+            if ((granted === PermissionsAndroid.RESULTS.GRANTED) || Platform.OS === 'ios') {
+                const options = {
+                    storageOptions: {
+                        skipBackup: true,
+                        path: 'images'
+                    }
+                } 
+
+                ImagePicker.showImagePicker(options, (response) => {
+                    console.log("Response = ", response);
+              
+                    if (response.didCancel) {
+                      console.log("User cancelled photo picker");
+                    } else if (response.error) {
+                      console.log("ImagePicker Error: ", response.error);
+                    } else if (response.customButton) {
+                      console.log("User tapped custom button: ", response.customButton);
+                    } else {
+                      // Base 64 image:
+                      let source = "data:image/jpeg;base64," + response.data;
+                      this.setState({
+                        profilePic: source,
+                        isLoadingImage: false
+                    })
+                    //   dispatchLoaderAction({
+                    //     type: LOADING_START,
+                    //   });
+                    //   UpdateUser(uuid, source)
+                    //     .then(() => {
+                    //       setUserDetail({
+                    //         ...userDetail,
+                    //         profileImg: source,
+                    //       });
+                    //       dispatchLoaderAction({
+                    //         type: LOADING_STOP,
+                    //       });
+                    //     })
+                    //     .catch(() => {
+                    //       alert(err);
+                    //       dispatchLoaderAction({
+                    //         type: LOADING_STOP,
+                    //       });
+                    //     });
+                    }
+                  });
+
+
+
+
+
+                // ImagePicker.launchImageLibrary(options, response => {
+                //     if (response.uri) {
+                //         console.log(response);
+                //         const params = {
+                //             file: {
+                //                 type: response.type,
+                //                 name: response.fileName,
+                //                 uri: response.uri.replace("file://", "")
+                //             },
+                //             save_in_db: false,
+                //         };
+                //         let fileExtension = response.uri.split('.').pop();
+                //         params.file.type = 'image/' + fileExtension;
+                //         params.file.name = `${type}_${Math.floor(Math.random() * (100 - 1 + 1)) + 1}.${fileExtension};`
+                //         console.log(params)
+                //         this.setState({
+                //             profilePic: params.file.uri,
+                //             isLoadingImage: false
+                //         })
+                //         // this.props.uploadProfile(params)
+                //         // if (type === 'Profile') {
+                //         //     this.props.uploadCompanyProfileImage(params);
+                //         //     this.props.updateCreateCompanyError('companyIdentityInputs', 'avatarImgUrlError', false)
+                //         // } else if (type === 'Banner') {
+                //         //     this.props.uploadCompanyCoverImage(params);
+                //         //     this.props.updateCreateCompanyError('companyIdentityInputs', 'coverImgUrlError', false)
+                //         // }
+                //     }
+
+                // })
+            } else {
+                console.log("Camera permission denied");
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
     componentDidMount() {
-        AsyncStorage.getItem('access_token').then((token) => {
-            console.log(token);
-            let userData = jwtDecode(token);
-            console.log(userData);
 
-            this.setState(
-                {
-                    firstName: userData.data.firstname,
-                    lastName: userData.data.lastname,
-                    profilePic: userData.data.photo,
-                    id:userData.id
-                })
+        getAsyncStorage(keys.access_token)
+            .then((access_token) => {
+                console.log(access_token);
+                let userData = jwtDecode(access_token);
+                console.log(userData);
+
+                this.setState(
+                    {
+                        firstName: userData.data.firstname,
+                        lastName: userData.data.lastname,
+                        profilePic: userData.data.photo,
+                        id: userData.id,
+                        phoneno: userData.data.phoneno
+                    })
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        // AsyncStorage.getItem('access_token').then((token) => {
+        //     console.log(token);
+        //     let userData = jwtDecode(token);
+        //     console.log(userData);
+
+        //     this.setState(
+        //         {
+        //             firstName: userData.data.firstname,
+        //             lastName: userData.data.lastname,
+        //             profilePic: userData.data.photo,
+        //             id: userData.id,
+        //             phoneno: userData.data.phoneno
+        //         })
             // this.setState({ 
             //   dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds)
             // });
 
-        });
+        // });
     }
     render() {
         return (
@@ -63,7 +290,7 @@ class CreateAccount extends React.Component {
                         {
                             this.state.space ?
                                 null :
-                                <View style={{ marginTop: '20%', justifyContent: 'space-between', flexDirection: 'row' }}>
+                                <View style={{ marginTop: '10%', justifyContent: 'space-between', flexDirection: 'row' }}>
 
                                     <View style={{ marginLeft: 42 }}>
                                         <Image
@@ -92,7 +319,7 @@ class CreateAccount extends React.Component {
                     <View
                         style={{
                             position: 'absolute',
-                            top: this.state.space ? Platform.OS === 'ios' ? '5%' : '-9%' : '60%',
+                            top: this.state.space ? Platform.OS === 'ios' ? '5%' : '-9%' : '40%',
                             padding: 15,
                             borderRadius: 9,
                             elevation: 3,
@@ -110,35 +337,50 @@ class CreateAccount extends React.Component {
                             paddingHorizontal: 31
                         }}>
                         {
-                            this.state.profilePic ?
+                            this.state.isLoadingImage ?
                                 <View>
-                                    <View style={{ alignItems: 'center' }}>
-                                        <Image
-                                            style={{ borderWidth: 3, borderRadius: 45, width: 92, height: 92, borderColor: 'rgba(0, 0, 0, 0.15)' }}
-                                            source={dummyPic}
-                                        />
-                                    </View>
-                                    <View style={{ position: 'absolute', top: '18%', left: '65%' }}>
-                                        <TouchableOpacity>
-                                            <Image
-                                                style={{ borderWidth: 3, borderRadius: 15, width: 30, height: 30, borderColor: '#fff' }}
-                                                source={cameraIcon}
-                                            />
-                                        </TouchableOpacity>
-
-                                    </View>
+                                    <ActivityIndicator size='large' color='#000' />
                                 </View>
                                 :
-                                <View style={{alignItems:'center'}}>
-                                    <View style={styles.dummyPic}>
-                                        <Image
-                                            source={cameraIcon}
-                                            style={{ width: 19, height: 17 }}
-                                        />
-                                    </View>
-                                </View>
+                                <View>
+                                    {
+                                        this.state.profilePic ?
+                                            <View>
+                                                <View style={{ alignItems: 'center' }}>
+                                                    <Image
+                                                        style={{ resizeMode: 'cover', borderWidth: 3, borderRadius: 45, width: 92, height: 92, borderColor: 'rgba(0, 0, 0, 0.15)' }}
+                                                        source={{ uri: this.state.profilePic }}
+                                                    />
+                                                </View>
+                                                <View style={{ position: 'absolute', top: '60%', left: '58%' }}>
+                                                    <TouchableOpacity onPress={this.onChangePicture}>
+                                                        <Image
+                                                            style={{ borderWidth: 3, borderRadius: 15, width: 30, height: 30, borderColor: '#fff' }}
+                                                            source={cameraIcon}
+                                                        />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                            :
+                                            <TouchableOpacity
+                                                onPress={this.onChangePicture}
+                                            >
+                                                <View style={{ alignItems: 'center' }}>
+                                                    <View style={styles.dummyPic}>
+                                                        <Image
+                                                            source={cameraIcon}
+                                                            style={{ width: 19, height: 17 }}
+                                                        />
+                                                    </View>
+                                                </View>
+                                            </TouchableOpacity>
 
+
+                                    }
+                                </View>
                         }
+
+
 
 
                         <View style={{ alignItems: 'center', marginTop: 24 }}>
@@ -210,8 +452,8 @@ class CreateAccount extends React.Component {
                                     borderRadius: 4,
                                     marginTop: 25,
                                 }}>
-                                {this.props.isRegisterLoading&&<ActivityIndicator size='large' color="#fff"/>}
-                                {!this.props.isRegisterLoading&&<Text style={{ color: '#39b54a', fontSize: 14, fontWeight: 'bold' }}>REGISTER</Text>}
+                                {this.props.isRegisterLoading && <ActivityIndicator size='large' color="#fff" />}
+                                {!this.props.isRegisterLoading && <Text style={{ color: '#39b54a', fontSize: 14, fontWeight: 'bold' }}>REGISTER</Text>}
                             </TouchableOpacity>
                         </View>
 
@@ -229,9 +471,15 @@ export default connect(
     }),
     dispatch => ({
         registerProfile: (params) => {
-          dispatch(registerProfile(params));
+            dispatch(registerProfile(params));
         },
-      })
+        uploadProfile: (params) => {
+            dispatch(uploadProfile(params));
+        },
+        registerDetails:(params)=>{
+            dispatch(registerDetails(params))
+        }
+    })
 )(CreateAccount);
 // export default createAccount;
 

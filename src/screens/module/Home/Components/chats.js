@@ -2,86 +2,153 @@ import React, { useState } from 'react';
 import { View, Text, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Platform, Image, Dimensions } from 'react-native';
 import Card from '../../../../components/common/Card'
 import dummyChat from './dummy-data-chat';
+import { connect } from 'react-redux';
 let deviceWidth = Dimensions.get('window').width;
 let deviceHeight = Dimensions.get('window').height;
-const chats = ({navigation}) => {
-    const [showAddButton, setShowAddButton] = useState(false);
-    // console.log(props) 
-    return (
-        <View style={{ flex: 1, }}>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={dummyChat}
-                renderItem={({ item, index }) => (
-                    <TouchableOpacity onPress={()=>navigation.navigate('SingleChat')}>
-                        <View 
-                        style={styles.singleChatContainer}>
-                            <View style={{ borderRadius: 20 }}>
-                                <Image
-                                    style={styles.profileImage}
-                                    source={item.profilePic}
-                                />
+import firebase from "../../../../firebase/config";
+import { token,userId } from "../../../../utils/constants";
+
+class Chats extends React.Component {
+    // state = {
+    //     allUserData =[],
+    //     showAddButton: false
+    // }
+    constructor() {
+        super();
+        this.firestoreRef = firebase.firestore().collection('users');
+        this.state = {
+            isLoading: true,
+            userArr: [],
+            showAddButton: false
+        };
+    }
+    componentDidMount() {
+        this.unsubscribe = this.firestoreRef.onSnapshot(this.getCollection);
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+    getCollection = (querySnapshot) => {
+        const userArr = [];
+        querySnapshot.forEach((res) => {
+            const { id, firstname, lastname,photo,gender,phoneno } = res.data();
+            if (userId !== id) {
+                userArr.push({
+                    id: id,
+                        firstname,
+                        lastname,
+                        photo,
+                        gender,
+                        phoneno,
+                });
+            }
+           console.log(userArr)
+        });
+        this.setState({
+            userArr,
+            isLoading: false,
+        });
+    }
+
+    nameTap = (profileImg, name, guestUserId) => {
+        if (!profileImg) {
+          this.props.navigation.navigate("SingleChat", {
+            name,
+            imgText: name.charAt(0),
+            guestUserId,
+            currentUserId: userId,
+          });
+        } else {
+          this.props.navigation.navigate("SingleChat", {
+            name,
+            img: profileImg,
+            guestUserId,
+            currentUserId: userId,
+          });
+        }
+      };
+    render() {
+        return (
+            <View style={{ flex: 1, }}>
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={this.state.userArr}
+                    renderItem={({ item, index }) => (
+                        <TouchableOpacity onPress={() =>  this.nameTap(item.photo,item.firstname,item.id)}>
+                            <View
+                                style={styles.singleChatContainer}>
+                                <View style={{ borderRadius: 20 }}>
+                                    <Image
+                                    defaultSource={dummyPic}
+                                        style={styles.profileImage}
+                                        source={{ uri: item.photo&&item.photo }}
+                                    />
+                                </View>
+                                <View style={styles.chatTextContainer}>
+                                    <Text style={{ marginVertical: 5, fontWeight: 'bold', letterSpacing: 0.8 }}>{item.firstname}</Text>
+                                    {/* <Text numberOfLines={1} style={{ width: '80%', letterSpacing: 0.8 }}>{item.message}</Text> */}
+                                </View>
+                                <View style={{ alignItems: 'flex-end', }}>
+                                    {/* <Text>{item.timeStamp}</Text> */}
+                                    {/* {!item.read ? <View style={styles.newMessageIcon} /> : null} */}
+                                </View>
                             </View>
-                            <View style={styles.chatTextContainer}>
-                                <Text style={{ marginVertical: 5, fontWeight: 'bold', letterSpacing: 0.8 }}>{item.name}</Text>
-                                <Text numberOfLines={1} style={{ width: '80%', letterSpacing: 0.8 }}>{item.message}</Text>
+                        </TouchableOpacity>
+
+                    )}
+                />
+
+                <View style={{ marginLeft: '80%', position: 'absolute', marginTop: deviceHeight * (Platform.OS === 'ios' ? this.state.showAddButton ? 0.45 : 0.20 : 0.50) }}>
+                    <View style={[styles.addButton, { borderRadius: 35, marginTop: !this.state.showAddButton ? (deviceHeight * (Platform.OS === 'ios' ? 0.46 : 0.19)) : (deviceHeight * (Platform.OS === 'ios' ? 0.0 : -0.06)) }]}>
+                        {
+                            this.state.showAddButton ?
+                                <View>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('StartGroup')}>
+                                        <View style={[styles.messageIconBackground, { marginTop: 5 }]}>
+                                            <ImageBackground
+                                                style={styles.messageImage}
+                                                source={messageIcon}>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>+</Text>
+                                            </ImageBackground>
+                                        </View>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('StartChat')}>
+                                        <View style={[styles.messageIconBackground, { marginTop: 20 }]}>
+                                            <ImageBackground
+                                                style={styles.messageImage}
+                                                source={messageIcon}>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>+</Text>
+                                            </ImageBackground>
+                                        </View>
+                                    </TouchableOpacity>
+
+                                </View> : null
+                        }
+                        <TouchableOpacity onPress={() => this.setState({ showAddButton: !this.state.showAddButton })}>
+                            <View style={[styles.messageIconBackground, { marginTop: this.state.showAddButton ? 20 : 0 }]}>
+                                <ImageBackground
+                                    style={styles.messageImage}
+                                    source={messageIcon}>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>+</Text>
+                                </ImageBackground>
                             </View>
-                            <View style={{ alignItems: 'flex-end', }}>
-                                <Text>{item.timeStamp}</Text>
-                                {!item.read ? <View style={styles.newMessageIcon} /> : null}
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-
-                )}
-            />
-
-            <View style={{ marginLeft: '80%', position: 'absolute', marginTop: deviceHeight * (Platform.OS === 'ios' ? showAddButton ? 0.45 : 0.20 : 0.50) }}>
-                <View style={[styles.addButton, { borderRadius: 35, marginTop: !showAddButton ? (deviceHeight * (Platform.OS === 'ios' ? 0.46 : 0.19)) : (deviceHeight * (Platform.OS === 'ios' ? 0.0 : -0.06)) }]}>
-                    {
-                        showAddButton ?
-                            <View>
-                                <TouchableOpacity onPress={() => navigation.navigate('StartGroup')}>
-                                    <View style={[styles.messageIconBackground, { marginTop: 5 }]}>
-                                        <ImageBackground
-                                            style={styles.messageImage}
-                                            source={messageIcon}>
-                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>+</Text>
-                                        </ImageBackground>
-                                    </View>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity onPress={() => navigation.navigate('StartChat')}>
-                                    <View style={[styles.messageIconBackground, { marginTop: 20 }]}>
-                                        <ImageBackground
-                                            style={styles.messageImage}
-                                            source={messageIcon}>
-                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>+</Text>
-                                        </ImageBackground>
-                                    </View>
-                                </TouchableOpacity>
-
-                            </View> : null
-                    }
-                    <TouchableOpacity onPress={() => setShowAddButton(!showAddButton)}>
-                        <View style={[styles.messageIconBackground, { marginTop: showAddButton ? 20 : 0 }]}>
-                            <ImageBackground
-                                style={styles.messageImage}
-                                source={messageIcon}>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>+</Text>
-                            </ImageBackground>
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-
-
             </View>
-
-        </View>
-    )
+        )
+    }
 }
-export default chats;
+
+export default connect(
+    (state) => ({
+        homeReducer: state.homeReducer
+    })
+)(Chats);
 const messageIcon = require('../../../../images/50.png');
+const dummyPic = require('../../../../images/dummy-user.png');
 
 const styles = StyleSheet.create({
     messageIconBackground: {
@@ -95,9 +162,9 @@ const styles = StyleSheet.create({
     profileImage: {
         width: 45,
         height: 45,
+        borderRadius:45/2
     },
     singleChatContainer: {
-
         alignItems: 'center',
         marginHorizontal: 20,
         marginVertical: 12,

@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet,TouchableOpacity } from 'react-native';
-
-const homeHeader = ({navigation}) => {
-    const onPressProfile = () =>{
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+const homeHeader = ({ navigation, homeReducer }) => {
+    const onPressProfile = () => {
         navigation.navigate('MyProfile');
         //Settings
     }
+    const { loggedInUser } = homeReducer;
     return (
         <View style={styles.innerContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -21,22 +22,26 @@ const homeHeader = ({navigation}) => {
                     source={searchIcon}
                 />
                 <TouchableOpacity
-                onPress={onPressProfile}
+                    onPress={onPressProfile}
                 >
                     <Image
+                        defaultSource={dummyPic}
                         style={styles.profilePic}
-                        source={dummyPic}
+                        source={{uri:loggedInUser.photo&&loggedInUser.photo}}
                     />
                 </TouchableOpacity>
-
             </View>
         </View>
     )
 }
-export default homeHeader;
+export default connect(
+    (state) => ({
+        homeReducer: state.homeReducer
+    })
+)(homeHeader);
 const settingIcon = require('../../../../images/45.png');
 const searchIcon = require('../../../../images/46.png');
-const dummyPic = require('../../../../images/44.png');
+const dummyPic = require('../../../../images/dummy-user.png');
 const styles = StyleSheet.create({
     outerContainer: {
         flex: 1,

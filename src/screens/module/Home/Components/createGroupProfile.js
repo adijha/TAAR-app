@@ -1,8 +1,32 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
 import { dummyUserSelectedgroup } from './startGroup';
+import { senderMsg, recieverMsg, 
+    addGroupIdUser,
+    groupCreate,UpdateGroupCreated, 
+    sendGroupChatMsg } from "../../../../network";
+import { token,userId } from "../../../../utils/constants";
+
 const CreateGroupProfile = ({navigation}) => {
     const [groupName, setGroupName] = useState('');
+    const createGroup =  async () => {
+        const params = {
+            adminId:userId,
+            createAt:new Date(),
+            groupImage:"data:64,8sdhD9hDF",
+            id:"",
+            lastMessage:'New 2 group Created',
+            members:{
+                0:"uud8sdDFnDF5FDFjh",
+                1:"BdfDfF5FDFjh",
+        },
+            name:"Devteam"
+        }
+        let key = await groupCreate(params);
+        UpdateGroupCreated(key);
+        addGroupIdUser(key,userId);
+
+    }
     return (
         <View style={styles.container}>
             <View style={{ backgroundColor: '#005082', paddingTop: Platform.OS === 'ios' ? 40 : 10, }}>
@@ -66,7 +90,9 @@ const CreateGroupProfile = ({navigation}) => {
                 </View>
                 <View style={{ marginTop: 20 }}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('SingleChat')}
+                        // onPress={() => navigation.navigate('SingleChat')}
+                        onPress={createGroup}
+
                         style={[styles.btn, { borderColor: groupName.length !== 0 ? '#39B54A' : '#000' }]}
                     >
                         <Text style={[styles.btnText, { color: groupName.length !== 0 ? '#39B54A' : '#000' }]}>DONE</Text>

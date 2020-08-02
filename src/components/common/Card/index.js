@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   container: {
     // padding: 15,
     borderRadius: 2,
-    elevation: 3,
+    elevation: 5,
     backgroundColor: '#fff',
     marginTop: 25,
     // width: '92%',
