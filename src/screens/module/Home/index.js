@@ -33,7 +33,7 @@ const Home = ({navigation}) => {
                 borderBottomColor: '#fff',
               },
               activeTintColor: '#fff',
-              inactiveTintColor: '#f0f0f0',
+              inactiveTintColor: '#999',
               labelStyle: {fontSize: 15, fontWeight: '500'},
               indicatorStyle: {backgroundColor: 'grey'},
             }}>

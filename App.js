@@ -4,9 +4,9 @@ import {Provider} from 'react-redux';
 import configureStore from './src/store/store';
 import MainNavigator from './src/navigation';
 import SplashScreen from './src/screens/common/SplashScreen';
-
 const {store} = configureStore();
-
+//added for temp basics
+console.disableYellowBox = true;
 export default function App() {
   const [splash, setSplash] = useState(true);
   useEffect(() => {

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIconsI from 'react-native-vector-icons/MaterialIcons';
 import {
   View,
   Text,
@@ -143,36 +143,28 @@ class Chats extends React.Component {
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('StartGroup')}>
                   <View style={[styles.messageIconBackground, {marginTop: 5}]}>
-                    <ImageBackground
-                      style={styles.messageImage}
-                      source={messageIcon}>
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          fontWeight: 'bold',
-                          color: '#fff',
-                        }}>
-                        +
-                      </Text>
-                    </ImageBackground>
+                    <MaterialIconsI
+                      name="chat-bubble-outline"
+                      size={30}
+                      color="#fff"
+                    />
+                    <Text style={{color: '#fff', marginTop: -30, fontSize: 17}}>
+                      +
+                    </Text>
                   </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('StartChat')}>
                   <View style={[styles.messageIconBackground, {marginTop: 20}]}>
-                    <ImageBackground
-                      style={styles.messageImage}
-                      source={messageIcon}>
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          fontWeight: 'bold',
-                          color: '#fff',
-                        }}>
-                        +
-                      </Text>
-                    </ImageBackground>
+                    <MaterialIconsI
+                      name="chat-bubble-outline"
+                      size={30}
+                      color="#fff"
+                    />
+                    <Text style={{color: '#fff', marginTop: -30, fontSize: 17}}>
+                      +
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -186,14 +178,14 @@ class Chats extends React.Component {
                   styles.messageIconBackground,
                   {marginTop: this.state.showAddButton ? 20 : 0},
                 ]}>
-                <ImageBackground
-                  style={styles.messageImage}
-                  source={messageIcon}>
-                  <Text
-                    style={{fontSize: 15, fontWeight: 'bold', color: '#fff'}}>
-                    +
-                  </Text>
-                </ImageBackground>
+                <MaterialIconsI
+                  name="chat-bubble-outline"
+                  size={30}
+                  color="#fff"
+                />
+                <Text style={{color: '#fff', marginTop: -30, fontSize: 17}}>
+                  +
+                </Text>
               </View>
             </TouchableOpacity>
           </View>

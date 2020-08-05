@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-import FontAwesomeI from 'react-native-vector-icons/FontAwesome';
+import FeatherI from 'react-native-vector-icons/Feather';
 const homeHeader = ({navigation, homeReducer}) => {
   const onPressProfile = () => {
     navigation.navigate('MyProfile');
@@ -19,11 +19,11 @@ const homeHeader = ({navigation, homeReducer}) => {
   return (
     <View style={styles.innerContainer}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Icon name="settings" size={21} color="#fff" />
+        <Icon name="settings" size={22} color="#fff" />
         <Text style={styles.titleText}>CHAT</Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <FontAwesomeI name="search" size={21} color="#fff" />
+        <FeatherI name="search" size={21} color="#fff" />
         <TouchableOpacity onPress={onPressProfile}>
           <Image
             defaultSource={'https://adijha.com/profile.jpg'}
