@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   View,
   Text,
@@ -53,7 +54,7 @@ class Chats extends React.Component {
           phoneno,
         });
       }
-      console.log(userArr);
+      // console.log(userArr);
     });
     this.setState({
       userArr,

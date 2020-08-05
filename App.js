@@ -12,7 +12,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       setSplash(false);
-    }, 9999999);
+    }, 2000);
   }, []);
   return splash ? (
     <View style={styles.container}>

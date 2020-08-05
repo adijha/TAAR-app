@@ -1,6 +1,15 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import {connect} from 'react-redux';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesomeI from 'react-native-vector-icons/FontAwesome';
 const homeHeader = ({navigation, homeReducer}) => {
   const onPressProfile = () => {
     navigation.navigate('MyProfile');
@@ -10,16 +19,20 @@ const homeHeader = ({navigation, homeReducer}) => {
   return (
     <View style={styles.innerContainer}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image style={{height: 15, width: 15}} source={settingIcon} />
+        <Icon name="settings" size={21} color="#fff" />
         <Text style={styles.titleText}>CHAT</Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image style={{height: 18, width: 18}} source={searchIcon} />
+        <FontAwesomeI name="search" size={21} color="#fff" />
         <TouchableOpacity onPress={onPressProfile}>
           <Image
-            defaultSource={dummyPic}
+            defaultSource={'https://adijha.com/profile.jpg'}
             style={styles.profilePic}
-            source={{uri: loggedInUser.photo && loggedInUser.photo}}
+            source={{
+              uri: loggedInUser.photo
+                ? loggedInUser.photo
+                : 'https://adijha.com/profile.jpg',
+            }}
           />
         </TouchableOpacity>
       </View>
@@ -29,7 +42,6 @@ const homeHeader = ({navigation, homeReducer}) => {
 export default connect((state) => ({
   homeReducer: state.homeReducer,
 }))(homeHeader);
-const settingIcon = require('../../../../images/45.png');
 const searchIcon = require('../../../../images/46.png');
 const dummyPic = require('../../../../images/dummy-user.png');
 const styles = StyleSheet.create({
@@ -46,10 +58,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   titleText: {
-    marginLeft: 12,
+    marginLeft: 10,
     color: '#f8f8f8',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: 'bold',
     letterSpacing: 1.92,
   },
   profilePic: {
