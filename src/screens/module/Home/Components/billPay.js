@@ -73,18 +73,16 @@ const billPays = (props) => {
         source={require('../../../../images/49.png')}
         style={{
           width: 300,
-          height: 175,
-          // alignSelf: 'center',
-          // resizeMode: 'contain',
-          marginTop: 70,
+          resizeMode: 'contain',
+          marginTop: '25%',
         }}
       />
-      <TouchableOpacity onPress={createGroup}>
+      {/* <TouchableOpacity onPress={createGroup}>
         <Text>creategroupChat</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={sendGroupMsg}>
         <Text>sendgroupmsg</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Text style={styles.registerText}>
         Services will be back soon stay tuned
       </Text>
@@ -94,7 +92,7 @@ const billPays = (props) => {
 export default billPays;
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
     flex: 1,
@@ -104,5 +102,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
     fontWeight: 'bold',
+    marginTop: -30,
   },
 });
