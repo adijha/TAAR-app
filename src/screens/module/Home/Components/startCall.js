@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import dummyUserList from './dummy-data-userList';
+import Icon from 'react-native-vector-icons/Ionicons';
+import FontAwesome5I from 'react-native-vector-icons/FontAwesome5';
+
 const startCall = ({navigation}) => {
   const onPressUserCall = (item) => {
     navigation.navigate('Calling', {user: item});
@@ -29,7 +32,7 @@ const startCall = ({navigation}) => {
           }}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Image style={{height: 15, width: 15}} source={longBackArrow} />
+              <Icon name="arrow-back" size={26} color="#fff" />
             </TouchableOpacity>
             <Text
               style={{
@@ -44,17 +47,7 @@ const startCall = ({navigation}) => {
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View>
-              <Image
-                style={{
-                  height: 15,
-                  width: 15,
-                  position: 'absolute',
-                  marginLeft: 13,
-                  marginTop: -8,
-                }}
-                source={plusIcon}
-              />
-              <Image style={{height: 18, width: 18}} source={dummyUser} />
+              <FontAwesome5I name="user-plus" size={20} color="#fff" />
             </View>
           </View>
         </View>
@@ -94,7 +87,6 @@ const startCall = ({navigation}) => {
 };
 
 export default startCall;
-const longBackArrow = require('../../../../images/52.png');
 const dummyUser = require('../../../../images/53.png');
 const plusIcon = require('../../../../images/54.png');
 
