@@ -11,6 +11,9 @@ import {
   Dimensions,
 } from 'react-native';
 import Card from '../../../../components/common/Card';
+import Icon from 'react-native-vector-icons/Ionicons';
+import ZocialI from 'react-native-vector-icons/Zocial';
+
 import dummyChat from './dummy-data-chat';
 let deviceWidth = Dimensions.get('window').width;
 let deviceHeight = Dimensions.get('window').height;
@@ -51,10 +54,7 @@ const calls = ({navigation}) => {
               </View>
               <View style={{alignItems: 'flex-end'}}>
                 <TouchableOpacity onPress={() => onPressUserCall(item)}>
-                  <Image
-                    style={{width: 15, height: 15}}
-                    source={callIconSolidBlue}
-                  />
+                  <ZocialI name="call" size={21} color="#005082" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -84,7 +84,7 @@ const calls = ({navigation}) => {
                 styles.callIconBackground,
                 {marginTop: showAddButton ? 20 : 0},
               ]}>
-              <Image style={styles.callImage} source={callIconOutline} />
+              <Icon name="call-outline" size={26} color="#fff" />
             </View>
           </TouchableOpacity>
         </View>
