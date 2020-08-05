@@ -42,7 +42,6 @@ const homeHeader = ({navigation, homeReducer}) => {
 export default connect((state) => ({
   homeReducer: state.homeReducer,
 }))(homeHeader);
-const searchIcon = require('../../../../images/46.png');
 const dummyPic = require('../../../../images/dummy-user.png');
 const styles = StyleSheet.create({
   outerContainer: {
@@ -51,8 +50,8 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 40 : 10,
   },
   innerContainer: {
-    paddingTop: 20,
-    paddingBottom: 30,
+    paddingTop: 14,
+    paddingBottom: 20,
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingHorizontal: 20,

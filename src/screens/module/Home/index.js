@@ -32,9 +32,10 @@ const Home = ({navigation}) => {
                 borderBottomWidth: 3,
                 borderBottomColor: '#fff',
               },
-              activeTintColor: '#F8F8F8',
-              inactiveTintColor: 'grey',
+              activeTintColor: '#fff',
+              inactiveTintColor: '#f0f0f0',
               labelStyle: {fontSize: 15, fontWeight: '500'},
+              indicatorStyle: {backgroundColor: 'grey'},
             }}>
             <Tab.Screen name="Chats">
               {() => <Chats navigation={navigation} />}
